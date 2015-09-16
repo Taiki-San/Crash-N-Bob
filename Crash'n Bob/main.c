@@ -6,10 +6,10 @@
 //  Copyright © 2015 Taiki. All rights reserved.
 //
 
-#include <stdio.h>
+#include "main.h"
 
-int main(int argc, const char * argv[]) {
-	// insert code here...
-	printf("Hello, World!\n");
-    return 0;
+int main(int argc, const char * argv[])
+{
+
+	return 0;
 }
