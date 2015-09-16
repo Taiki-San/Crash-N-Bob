@@ -12,7 +12,7 @@
 
 void printSpace(uint nbSpace)
 {
-	while(nbSpace-- > 0)
+	while(nbSpace --> 0)
 		putc(' ', stdout);
 }
 
