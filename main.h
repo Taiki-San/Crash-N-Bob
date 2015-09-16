@@ -20,7 +20,7 @@ typedef unsigned char byte;
 
 enum
 {
-	DIR_UP,
+	DIR_NORTH,
 	DIR_EAST,
 	DIR_SOUTH,
 	DIR_WEST,
