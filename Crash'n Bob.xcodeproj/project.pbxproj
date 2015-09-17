@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6CC0D741BA9441E0039C1DD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D731BA9441E0039C1DD /* main.c */; };
+		B6CC0D801BA94D470039C1DD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7D1BA94D470039C1DD /* main.c */; settings = {ASSET_TAGS = (); }; };
+		B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7F1BA94D470039C1DD /* uiTools.c */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +25,9 @@
 
 /* Begin PBXFileReference section */
 		B6CC0D701BA9441E0039C1DD /* Crash'n Bob */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Crash'n Bob"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6CC0D731BA9441E0039C1DD /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		B6CC0D7D1BA94D470039C1DD /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = SOURCE_ROOT; };
+		B6CC0D7E1BA94D470039C1DD /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = SOURCE_ROOT; };
+		B6CC0D7F1BA94D470039C1DD /* uiTools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uiTools.c; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +60,9 @@
 		B6CC0D721BA9441E0039C1DD /* Crash'n Bob */ = {
 			isa = PBXGroup;
 			children = (
-				B6CC0D731BA9441E0039C1DD /* main.c */,
+				B6CC0D7D1BA94D470039C1DD /* main.c */,
+				B6CC0D7E1BA94D470039C1DD /* main.h */,
+				B6CC0D7F1BA94D470039C1DD /* uiTools.c */,
 			);
 			path = "Crash'n Bob";
 			sourceTree = "<group>";
@@ -118,7 +123,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6CC0D741BA9441E0039C1DD /* main.c in Sources */,
+				B6CC0D801BA94D470039C1DD /* main.c in Sources */,
+				B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
