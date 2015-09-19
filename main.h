@@ -62,11 +62,13 @@ enum
 
 enum
 {
-	LENGTH_BORDER	= 30,
+	LENGTH_BORDER	= 33,
 	LENGTH_NODE		= 29,
 	WIDTH_ROAD_EXTERNAL = 13,
 	
-	NB_SLOTS_BORDER = 15,
+	CAR_WIDTH = 2,
+	
+	NB_SLOTS_BORDER = 10,
 	
 	NB_SLOTS_NODE = 40,
 };
@@ -115,8 +117,15 @@ void printCar(CAR car);
 CAR updateNodeData(CAR car);
 
 //UI
+void printChar(char * string, uint nbChar);
 void printSpace(uint nbSpace);
 void flushDisplay();
-void printVerticalRoad(CAR leftSide[2], CAR rightSide[2]);
-void printOblique45Road(CAR leftSide, CAR rightSide);
-void printOblique135Road(CAR leftSide, CAR rightSide);
+char getCarReadableGlyph(CAR car);
+void printWideVerticalRoad(CAR leftSide[2], CAR rightSide[2]);
+void printHorizontalRoad(CAR data[], uint width, bool wider);
+void _printOblique45Road(CAR leftSide, CAR rightSide, bool ignoreInternal);
+void _printOblique135Road(CAR leftSide, CAR rightSide, bool ignoreInternal);
+
+//Shortcuts
+#define printOblique45Road(a, b) _printOblique45Road(a, b, false)
+#define printOblique135Road(a, b) _printOblique135Road(a, b, false)
