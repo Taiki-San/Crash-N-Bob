@@ -10,6 +10,7 @@
 		B63C14C31BAD748700392AB1 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = B63C14C21BAD748700392AB1 /* utils.c */; settings = {ASSET_TAGS = (); }; };
 		B6CC0D801BA94D470039C1DD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7D1BA94D470039C1DD /* main.c */; settings = {ASSET_TAGS = (); }; };
 		B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7F1BA94D470039C1DD /* uiTools.c */; settings = {ASSET_TAGS = (); }; };
+		B6E25F451BAD879300A7B12D /* uiCore.c in Sources */ = {isa = PBXBuildFile; fileRef = B6E25F441BAD879300A7B12D /* uiCore.c */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,7 @@
 		B6CC0D7D1BA94D470039C1DD /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = SOURCE_ROOT; };
 		B6CC0D7E1BA94D470039C1DD /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = SOURCE_ROOT; };
 		B6CC0D7F1BA94D470039C1DD /* uiTools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uiTools.c; sourceTree = SOURCE_ROOT; };
+		B6E25F441BAD879300A7B12D /* uiCore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uiCore.c; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,8 +66,9 @@
 			children = (
 				B6CC0D7D1BA94D470039C1DD /* main.c */,
 				B6CC0D7E1BA94D470039C1DD /* main.h */,
-				B63C14C21BAD748700392AB1 /* utils.c */,
+				B6E25F441BAD879300A7B12D /* uiCore.c */,
 				B6CC0D7F1BA94D470039C1DD /* uiTools.c */,
+				B63C14C21BAD748700392AB1 /* utils.c */,
 			);
 			path = "Crash'n Bob";
 			sourceTree = "<group>";
@@ -126,6 +129,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6E25F451BAD879300A7B12D /* uiCore.c in Sources */,
 				B63C14C31BAD748700392AB1 /* utils.c in Sources */,
 				B6CC0D801BA94D470039C1DD /* main.c in Sources */,
 				B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */,
