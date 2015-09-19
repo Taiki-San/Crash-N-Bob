@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <strings.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <limits.h>
 
 //Some custom types
@@ -49,10 +50,19 @@ enum
 
 typedef struct
 {
+	uint ID;
+	
 	byte direction;
 	
 	byte speed;
 	
 	byte status;
 	
+	bool isInitialized;
+	
 } CAR;
+
+//Functions declarations
+
+//General utils
+CAR getEmptyCar();
