@@ -19,7 +19,7 @@ CAR getEmptyCar()
 
 void printCar(CAR car)
 {
-	fprintf(stderr, "Debug data:\n	ID: %u\n	direction: %d\n	speed: %d\n	status: %d\n	isInitialized: %d\n	index: %d\n	section: %d\n	onLeftRoad: %d", car.ID, car.direction, car.speed, car.status, car.isInitialized, car.context.index, car.context.section, car.context.onLeftRoad);
+	fprintf(stderr, "Debug data:\n	ID: %u\n	direction: %d\n	speed: %d\n	status: %d\n	isInitialized: %d\n	index: %d\n	section: %d\n	onLeftRoad: %d\n", car.ID, car.direction, car.speed, car.status, car.isInitialized, car.context.index, car.context.section, car.context.onLeftRoad);
 }
 
 CAR updateNodeData(CAR car)

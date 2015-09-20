@@ -8,10 +8,14 @@
 
 #include "main.h"
 
+//
 //This code is really ugly for a couple of reason:
 //
 //	- Why would anyone draw complex shapes in a shell ಠ_ಠ
 //	- Lot of edge cases making functions not worth the trouble
+//	- There is very little logic there, so it's not worth the extra work
+//
+//
 
 void drawGrid()
 {
@@ -73,7 +77,7 @@ void drawGrid()
 	}
 	
 	printChar("_", --offset);
-	printf("/ %c | %c ┃", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
+	printf("/ %c ┃ %c ┃", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
 	printSpace(internalSpace);
 	printf("┃ %c | %c \\", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
 	printChar("_", offset);

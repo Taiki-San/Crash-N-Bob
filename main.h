@@ -123,9 +123,5 @@ void flushDisplay();
 char getCarReadableGlyph(CAR car);
 void printWideVerticalRoad(CAR leftSide[2], CAR rightSide[2]);
 void printHorizontalRoad(CAR data[], uint width, bool wider);
-void _printOblique45Road(CAR leftSide, CAR rightSide, bool ignoreInternal);
-void _printOblique135Road(CAR leftSide, CAR rightSide, bool ignoreInternal);
-
-//Shortcuts
-#define printOblique45Road(a, b) _printOblique45Road(a, b, false)
-#define printOblique135Road(a, b) _printOblique135Road(a, b, false)
+void printOblique45Road(CAR leftSide, CAR rightSide);
+void printOblique135Road(CAR leftSide, CAR rightSide);

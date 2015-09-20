@@ -84,21 +84,20 @@ void printHorizontalRoad(CAR data[], uint width, bool wider)
 		printf(wider ? "  %c" : " %c", getCarReadableGlyph(data[i]));
 }
 
-
-void _printOblique45Road(CAR leftSide, CAR rightSide, bool ignoreInternal)
+void printOblique45Road(CAR leftSide, CAR rightSide)
 {
-	printf("/ %c / %c %c", getCarReadableGlyph(leftSide), getCarReadableGlyph(rightSide), ignoreInternal ? '\0' : '/');
+	printf("/ %c / %c /", getCarReadableGlyph(leftSide), getCarReadableGlyph(rightSide));
 }
 
-void _printOblique135Road(CAR leftSide, CAR rightSide, bool ignoreInternal)
+void printOblique135Road(CAR leftSide, CAR rightSide)
 {
-	printf("%c %c \\ %c \\", ignoreInternal ? '\0' : '\\', getCarReadableGlyph(leftSide), getCarReadableGlyph(rightSide));
+	printf("\\ %c \\ %c \\", getCarReadableGlyph(leftSide), getCarReadableGlyph(rightSide));
 }
 
 //Sorting work
-int sortCars(void * _a, void * _b)
+int sortCars(const void * _a, const void * _b)
 {
-	CAR * a = _a, * b = _b;
+	const CAR * a = _a, * b = _b;
 	
 	if(!a->isInitialized || !b->isInitialized)
 		return a->isInitialized ? -1 : 1;
@@ -113,7 +112,7 @@ int sortCars(void * _a, void * _b)
 			{
 				//If not at the same point, the closest of the border of the display win
 				if(a->context.index != b->context.index)
-					return b->context.index - a->context.index;
+					return a->context.index - b->context.index;
 				
 				priorityLeft = true;
 			}
@@ -158,7 +157,7 @@ int sortCars(void * _a, void * _b)
 					return (scoreA > scoreB ? -1 : 1) * (priorityLeft ? -1 : 1);
 				
 				if(a->context.index != b->context.index)
-					return (b->context.index - a->context.index) * (priorityLeft ? -1 : 1);
+					return (a->context.index - b->context.index) * (priorityLeft ? -1 : 1);
 				
 				//WTF?! There should be a colision
 #ifdef DEBUG_BUILD
@@ -172,9 +171,9 @@ int sortCars(void * _a, void * _b)
 			case SECTION_NODE:
 			{
 				if(a->context.lineOfNode != b->context.lineOfNode)
-					return b->context.lineOfNode - a->context.lineOfNode;
+					return a->context.lineOfNode - b->context.lineOfNode;
 				
-				return b->context.indexOfLineInNode - a->context.indexOfLineInNode;
+				return a->context.indexOfLineInNode - b->context.indexOfLineInNode;
 			}
 		}
 	}
@@ -184,7 +183,7 @@ int sortCars(void * _a, void * _b)
 	   && (b->context.section == SECTION_WEST || b->context.section == SECTION_EAST)
 	   && (a->context.section == SECTION_WEST || a->context.section == SECTION_EAST))
 	{
-		CAR * nodeCar, * otherCar;
+		const CAR * nodeCar, * otherCar;
 		int ifNodeWin;
 		if(a->context.section == SECTION_NODE)
 		{
@@ -229,5 +228,5 @@ int sortCars(void * _a, void * _b)
 		return ifNodeWin;
 	}
 	
-	return b->context.section - a->context.section;
+	return a->context.section - b->context.section;
 }
