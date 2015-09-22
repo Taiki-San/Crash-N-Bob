@@ -10,8 +10,10 @@
 
 //Toolbox
 
-char getCarReadableGlyph(CAR car)
+char getCarReadableGlyph(CONTEXT context)
 {
+	CAR car = contextGetNextCarForRendering(context);
+	
 	//Empty space
 	if(!car.isInitialized)
 		return ' ';
@@ -68,30 +70,30 @@ void printChar(char * string, uint nbChar)
 		fputs(string, stdout);
 }
 
-void printWideVerticalRoad(CAR leftSide[2], CAR rightSide[2])
+void printWideVerticalRoad(CONTEXT context)
 {
-	printf("| %c %c | %c %c |", getCarReadableGlyph(leftSide[0]), getCarReadableGlyph(leftSide[1]), getCarReadableGlyph(rightSide[0]), getCarReadableGlyph(rightSide[1]));
+	printf("| %c %c | %c %c |", getCarReadableGlyph(context), getCarReadableGlyph(context), getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
-void printHorizontalRoad(CAR data[], uint width, bool wider)
+void printHorizontalRoad(CONTEXT context, uint width, bool wider)
 {
 	if(width == 0)
 		return;
 	
-	putc(getCarReadableGlyph(data[0]), stdout);
+	putc(getCarReadableGlyph(context), stdout);
 	
 	for(uint i = 1; i < width; ++i)
-		printf(wider ? "  %c" : " %c", getCarReadableGlyph(data[i]));
+		printf(wider ? "  %c" : " %c", getCarReadableGlyph(context));
 }
 
-void printOblique45Road(CAR leftSide, CAR rightSide)
+void printOblique45Road(CONTEXT context)
 {
-	printf("/ %c / %c /", getCarReadableGlyph(leftSide), getCarReadableGlyph(rightSide));
+	printf("/ %c / %c /", getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
-void printOblique135Road(CAR leftSide, CAR rightSide)
+void printOblique135Road(CONTEXT context)
 {
-	printf("\\ %c \\ %c \\", getCarReadableGlyph(leftSide), getCarReadableGlyph(rightSide));
+	printf("\\ %c \\ %c \\", getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
 //Sorting work

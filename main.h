@@ -106,22 +106,47 @@ typedef struct
 	
 } CAR;
 
+typedef struct thisShouldBeAnObjectOnSoManyLevels
+{
+	CAR * cars;
+	uint nbCars;
+	
+	struct
+	{
+		uint currentLine;
+		uint currentColumn;
+		
+	} rendering;
+
+} CONTEXT_STRUCT;
+
+typedef CONTEXT_STRUCT * CONTEXT;
+
 //Functions declarations
 
 //High level calls
-void drawGrid();
+void drawGrid(CONTEXT context);
 
 //General utils
 CAR getEmptyCar();
 void printCar(CAR car);
 CAR updateNodeData(CAR car);
 
+//Context Utils
+CONTEXT createContext();
+void destroyContext(CONTEXT context);
+void contextNewPass(CONTEXT context);
+CAR contextGetNextCarForRendering(CONTEXT context);
+void contextJumpNewLine(CONTEXT context);
+void finishedUpdateContext(CONTEXT context);
+int sortCars(const void * _a, const void * _b);
+
 //UI
 void printChar(char * string, uint nbChar);
 void printSpace(uint nbSpace);
 void flushDisplay();
-char getCarReadableGlyph(CAR car);
-void printWideVerticalRoad(CAR leftSide[2], CAR rightSide[2]);
-void printHorizontalRoad(CAR data[], uint width, bool wider);
-void printOblique45Road(CAR leftSide, CAR rightSide);
-void printOblique135Road(CAR leftSide, CAR rightSide);
+char getCarReadableGlyph(CONTEXT context);
+void printWideVerticalRoad(CONTEXT context);
+void printHorizontalRoad(CONTEXT context, uint width, bool wider);
+void printOblique45Road(CONTEXT context);
+void printOblique135Road(CONTEXT context);

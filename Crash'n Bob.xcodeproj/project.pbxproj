@@ -11,6 +11,7 @@
 		B6CC0D801BA94D470039C1DD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7D1BA94D470039C1DD /* main.c */; settings = {ASSET_TAGS = (); }; };
 		B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7F1BA94D470039C1DD /* uiTools.c */; settings = {ASSET_TAGS = (); }; };
 		B6E25F451BAD879300A7B12D /* uiCore.c in Sources */ = {isa = PBXBuildFile; fileRef = B6E25F441BAD879300A7B12D /* uiCore.c */; settings = {ASSET_TAGS = (); }; };
+		B6E25F471BAE0AF200A7B12D /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = B6E25F461BAE0AF200A7B12D /* context.c */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,7 @@
 		B6CC0D7E1BA94D470039C1DD /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = SOURCE_ROOT; };
 		B6CC0D7F1BA94D470039C1DD /* uiTools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uiTools.c; sourceTree = SOURCE_ROOT; };
 		B6E25F441BAD879300A7B12D /* uiCore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uiCore.c; sourceTree = SOURCE_ROOT; };
+		B6E25F461BAE0AF200A7B12D /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = context.c; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 		B6CC0D721BA9441E0039C1DD /* Crash'n Bob */ = {
 			isa = PBXGroup;
 			children = (
+				B6E25F461BAE0AF200A7B12D /* context.c */,
 				B6CC0D7D1BA94D470039C1DD /* main.c */,
 				B6CC0D7E1BA94D470039C1DD /* main.h */,
 				B6E25F441BAD879300A7B12D /* uiCore.c */,
@@ -130,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6E25F451BAD879300A7B12D /* uiCore.c in Sources */,
+				B6E25F471BAE0AF200A7B12D /* context.c in Sources */,
 				B63C14C31BAD748700392AB1 /* utils.c in Sources */,
 				B6CC0D801BA94D470039C1DD /* main.c in Sources */,
 				B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */,

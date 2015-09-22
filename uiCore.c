@@ -17,11 +17,10 @@
 //
 //
 
-void drawGrid()
+void drawGrid(CONTEXT context)
 {
 	flushDisplay();
-	
-	CAR emptyDummy[2] = {getEmptyCar(), getEmptyCar()}, longEmpty[NB_SLOTS_BORDER + 5] = {getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar(), getEmptyCar()};
+	contextNewPass(context);
 	
 	//Draw the top of the display
 	uint offset = LENGTH_BORDER + LENGTH_NODE / 2 - WIDTH_ROAD_EXTERNAL / 2, internalSpace = WIDTH_ROAD_EXTERNAL;
@@ -29,7 +28,8 @@ void drawGrid()
 	for(byte i = 0; i < NB_SLOTS_BORDER - 1; ++i)
 	{
 		printSpace(offset);
-		printWideVerticalRoad(emptyDummy, emptyDummy);
+		printWideVerticalRoad(context);
+		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 	
@@ -38,129 +38,145 @@ void drawGrid()
 	//Add the line at the top of
 	printSpace(offset);
 	fputs("_____", stdout);
-	printWideVerticalRoad(emptyDummy, emptyDummy);
+	printWideVerticalRoad(context);
+	contextJumpNewLine(context);
 	puts("_____");
 	
 	//Top horizontal line
 	printSpace(--offset);
 	fputs("/  ", stdout);
-	printHorizontalRoad(longEmpty, 7, true);
+	printHorizontalRoad(context, 7, true);
+	contextJumpNewLine(context);
 	puts("  \\");
 	
 	//Empty space between the two top lines
 	printSpace(--offset);
-	printf("/ %c", getCarReadableGlyph(getEmptyCar()));
+	printf("/ %c", getCarReadableGlyph(context));
 	printChar(" - ", 7);
-	printf("%c \\\n", getCarReadableGlyph(getEmptyCar()));
+	printf("%c \\\n", getCarReadableGlyph(context));
+	contextJumpNewLine(context);
 	
 	//Internal line
 	printSpace(--offset);
 	fputs("/    ", stdout);
-	printHorizontalRoad(longEmpty, 7, true);
+	printHorizontalRoad(context, 7, true);
+	contextJumpNewLine(context);
 	puts("    \\");
 	
 	//First oblique portion
 	printSpace(--offset);
-	printOblique45Road(getEmptyCar(), getEmptyCar());
+	printOblique45Road(context);
 	printChar("¯", internalSpace);
-	printOblique135Road(getEmptyCar(), getEmptyCar());
+	printOblique135Road(context);
+	contextJumpNewLine(context);
 	putc('\n', stdout);
 	
 	for(byte i = 0; i < 3; ++i)
 	{
 		printSpace(--offset);
-		printOblique45Road(getEmptyCar(), getEmptyCar());
+		printOblique45Road(context);
 		internalSpace += 2;
 		printSpace(internalSpace);
-		printOblique135Road(getEmptyCar(), getEmptyCar());
+		printOblique135Road(context);
+		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 	
 	printChar("_", --offset);
-	printf("/ %c ┃ %c ┃", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
+	printf("/ %c ┃ %c ┃", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("┃ %c | %c \\", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
+	printf("┃ %c | %c \\", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar("_", offset);
+	contextJumpNewLine(context);
 	putc('\n', stdout);
 
 	//Top two lines
 	for(byte i = 0; i < 2; ++i)
 	{
-		printHorizontalRoad(longEmpty, NB_SLOTS_BORDER + 1, true);
-		printf(" ┃ %c ┃", getCarReadableGlyph(getEmptyCar()));
+		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
+		printf(" ┃ %c ┃", getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf("┃ %c | ", getCarReadableGlyph(getEmptyCar()));
-		printHorizontalRoad(longEmpty, NB_SLOTS_BORDER + 1, true);
+		printf("┃ %c | ", getCarReadableGlyph(context));
+		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
+		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 	
 	//Separator
 	printChar("-  ", offset / 3 + 1);
-	printf("%c ┃ %c ┃", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
+	printf("%c ┃ %c ┃", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("┃ %c | %c ", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
+	printf("┃ %c | %c ", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar(" - ", offset / 3 + 1);
+	contextJumpNewLine(context);
 	putc('\n', stdout);
 	
 	//Last two lines
 	for(byte i = 0; i < 2; ++i)
 	{
-		printHorizontalRoad(longEmpty, NB_SLOTS_BORDER + 1, true);
-		printf(" ┃ %c ┃", getCarReadableGlyph(getEmptyCar()));
+		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
+		printf(" ┃ %c ┃", getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf("┃ %c | ", getCarReadableGlyph(getEmptyCar()));
-		printHorizontalRoad(longEmpty, NB_SLOTS_BORDER + 1, true);
+		printf("┃ %c | ", getCarReadableGlyph(context));
+		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
+		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 
 	//Starting to close the area
 	printChar("¯", offset);
-	printf("\\ %c ┃ %c ┃", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
+	printf("\\ %c ┃ %c ┃", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("┃ %c | %c /", getCarReadableGlyph(getEmptyCar()), getCarReadableGlyph(getEmptyCar()));
+	printf("┃ %c | %c /", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar("¯", offset);
+	contextJumpNewLine(context);
 	putc('\n', stdout);
 	
 	for(byte i = 0; i < 3; ++i)
 	{
 		printSpace(++offset);
-		printOblique135Road(getEmptyCar(), getEmptyCar());
+		printOblique135Road(context);
 		printSpace(internalSpace);
 		internalSpace -= 2;
-		printOblique45Road(getEmptyCar(), getEmptyCar());
+		printOblique45Road(context);
+		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 	
 	//First oblique portion
 	printSpace(++offset);
-	printOblique135Road(getEmptyCar(), getEmptyCar());
+	printOblique135Road(context);
 	printChar("_", internalSpace);
-	printOblique45Road(getEmptyCar(), getEmptyCar());
+	printOblique45Road(context);
+	contextJumpNewLine(context);
 	putc('\n', stdout);
 
 	//Internal line
 	printSpace(++offset);
 	fputs("\\    ", stdout);
-	printHorizontalRoad(longEmpty, 7, true);
+	printHorizontalRoad(context, 7, true);
+	contextJumpNewLine(context);
 	puts("    /");
-	
 	
 	//Empty space between the two top lines
 	printSpace(++offset);
-	printf("\\ %c", getCarReadableGlyph(getEmptyCar()));
+	printf("\\ %c", getCarReadableGlyph(context));
 	printChar(" - ", 7);
-	printf("%c /\n", getCarReadableGlyph(getEmptyCar()));
-	
+	printf("%c /\n", getCarReadableGlyph(context));
+	contextJumpNewLine(context);
+
 	//Top horizontal line
 	printSpace(++offset);
 	fputs("\\  ", stdout);
-	printHorizontalRoad(longEmpty, 7, true);
+	printHorizontalRoad(context, 7, true);
+	contextJumpNewLine(context);
 	puts("  /");
 	
 	//Add the line at the top of
 	printSpace(++offset);
 	fputs("¯¯¯¯¯", stdout);
-	printWideVerticalRoad(emptyDummy, emptyDummy);
+	printWideVerticalRoad(context);
+	contextJumpNewLine(context);
 	puts("¯¯¯¯¯");
 	
 	offset += 2 * CAR_WIDTH + 1;
@@ -168,7 +184,8 @@ void drawGrid()
 	for(byte i = 0; i < NB_SLOTS_BORDER - 1; ++i)
 	{
 		printSpace(offset);
-		printWideVerticalRoad(emptyDummy, emptyDummy);
+		printWideVerticalRoad(context);
+		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 }
