@@ -1,13 +1,17 @@
 CC = GCC
 FLAGS = -Wall -c
 
-#compilation
+TARGET = CrashNBob
 
-all:
-	rm -rf obj/
-	mkdir obj
+OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 
-	$(CC) $(FLAGS) main.c -o obj/main.o
-	$(CC) $(FLAGS) uiTools.c -o obj/uiTools.o
+all: $(TARGET)
 
-	$(CC) obj/* -o crash_n_bob
+$(TARGET): $(OBJECTS)
+	$(CC) -o $@ obj_*.o
+
+%.o: %.c
+	$(CC) $(FLAGS) $^ -o obj_$@
+
+clean:
+	rm -r $(TARGET) obj_*
