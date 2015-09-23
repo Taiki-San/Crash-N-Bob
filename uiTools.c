@@ -180,9 +180,9 @@ int sortCars(const void * _a, const void * _b)
 	}
 	
 	//Not in the same section but possibly on the same line
-	if((a->context.section == SECTION_NODE || b->context.section != SECTION_NODE)
-	   && (b->context.section == SECTION_WEST || b->context.section == SECTION_EAST)
-	   && (a->context.section == SECTION_WEST || a->context.section == SECTION_EAST))
+	if((a->context.section == SECTION_NODE ^ b->context.section == SECTION_NODE)
+	   && ((b->context.section == SECTION_WEST || b->context.section == SECTION_EAST)
+		   ^ (a->context.section == SECTION_WEST || a->context.section == SECTION_EAST)))
 	{
 		const CAR * nodeCar, * otherCar;
 		int ifNodeWin;
@@ -190,32 +190,36 @@ int sortCars(const void * _a, const void * _b)
 		{
 			nodeCar = a;
 			otherCar = b;
-			ifNodeWin = 1;
+			ifNodeWin = -1;
 		}
 		else
 		{
 			nodeCar = b;
 			otherCar = a;
-			ifNodeWin = -1;
+			ifNodeWin = 1;
 		}
 		
 		//Over or under the entry
-		if(nodeCar->context.lineOfNode < 5)
+		if(nodeCar->context.lineOfNode < 8)
 			return ifNodeWin;
 		
-		else if(nodeCar->context.lineOfNode > 9)
+		else if(nodeCar->context.lineOfNode > 12)
 			return ifNodeWin * -1;
 		
 		//Geting tricky
-		uint lineCode = ((otherCar->direction == otherCar->context.section) ? 2 : 0) + (otherCar->context.onLeftRoad ? 0 : 1);
+		uint lineCode = getScore(*otherCar);
 		if(otherCar->context.section == SECTION_WEST)
 			lineCode = 3 - lineCode;
 		
-		lineCode += 5;	//Offset
+		//There is an empty line in the middle of the external road
+		if(lineCode > 1)
+			++lineCode;
+		
+		lineCode += 8;	//Offset
 		
 		//Node car is below the other one
 		if(lineCode < nodeCar->context.lineOfNode)
-			return !ifNodeWin;
+			return ifNodeWin * -1;
 		
 		//Node car is over the other one
 		else if(lineCode > nodeCar->context.lineOfNode)
@@ -223,7 +227,7 @@ int sortCars(const void * _a, const void * _b)
 		
 		//Node car is on the same line, but after the other one
 		else if(otherCar->context.section == SECTION_WEST)
-			return !ifNodeWin;
+			return ifNodeWin * -1;
 		
 		//Same line, 
 		return ifNodeWin;

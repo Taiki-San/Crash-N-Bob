@@ -73,11 +73,12 @@ enum
 	
 	NB_SLOTS_BORDER = 10,
 	
-	NB_SLOTS_NODE = 40,
+	NB_SLOTS_NODE = 54,
+	
+	AREA_NODE_BEFORE_MERGE = 8,
+	WIDTH_NODE_MERGE = 5
+	
 };
-
-//Those slots are only available in the external ring
-#define SLOTS_EXTERNAL (byte [4]) {4, 13, 24, 33}
 
 //Define general purpose structures
 

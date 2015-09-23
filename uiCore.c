@@ -44,10 +44,10 @@ void drawGrid(CONTEXT context)
 	
 	//Top horizontal line
 	printSpace(--offset);
-	fputs("/  ", stdout);
-	printHorizontalRoad(context, 7, true);
+	fputs("/ ", stdout);
+	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts("  \\");
+	puts(" \\");
 	
 	//Empty space between the two top lines
 	printSpace(--offset);
@@ -58,10 +58,10 @@ void drawGrid(CONTEXT context)
 	
 	//Internal line
 	printSpace(--offset);
-	fputs("/    ", stdout);
-	printHorizontalRoad(context, 7, true);
+	fputs("/   ", stdout);
+	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts("    \\");
+	puts("   \\");
 	
 	//First oblique portion
 	printSpace(--offset);
@@ -153,10 +153,10 @@ void drawGrid(CONTEXT context)
 
 	//Internal line
 	printSpace(++offset);
-	fputs("\\    ", stdout);
-	printHorizontalRoad(context, 7, true);
+	fputs("\\   ", stdout);
+	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts("    /");
+	puts("   /");
 	
 	//Empty space between the two top lines
 	printSpace(++offset);
@@ -167,10 +167,10 @@ void drawGrid(CONTEXT context)
 
 	//Top horizontal line
 	printSpace(++offset);
-	fputs("\\  ", stdout);
-	printHorizontalRoad(context, 7, true);
+	fputs("\\ ", stdout);
+	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts("  /");
+	puts(" /");
 	
 	//Add the line at the top of
 	printSpace(++offset);
