@@ -151,8 +151,7 @@ int sortCars(const void * _a, const void * _b)
 			case SECTION_WEST:
 			{
 				//We determine a score depending of the line
-				uint scoreA = ((a->direction == a->context.section) ? 2 : 0) + (a->context.onLeftRoad ? 0 : 1);
-				uint scoreB = ((b->direction == a->context.section) ? 2 : 0) + (b->context.onLeftRoad ? 0 : 1);
+				uint scoreA = getScore(*a), scoreB = getScore(*b);
 				
 				//Not the same line
 				if(scoreA != scoreB)
@@ -231,4 +230,12 @@ int sortCars(const void * _a, const void * _b)
 	}
 	
 	return a->context.section - b->context.section;
+}
+
+inline uint getScore(CAR car)
+{
+	if(car.direction == car.context.section)
+		return 2 + (car.context.onLeftRoad ? 0 : 1);
+	
+	return car.context.onLeftRoad;
 }

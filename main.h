@@ -62,6 +62,9 @@ enum
 
 enum
 {
+	HEIGHT = 41,
+	WIDTH = 41,
+	
 	LENGTH_BORDER	= 33,
 	LENGTH_NODE		= 29,
 	WIDTH_ROAD_EXTERNAL = 13,
@@ -116,6 +119,13 @@ typedef struct thisShouldBeAnObjectOnSoManyLevels
 		uint currentLine;
 		uint currentColumn;
 		
+		uint currentIndex;
+		
+		byte section;
+		
+		//We need the list to be sorted for the rendering pipeline to be efficient
+		bool sorted;
+		
 	} rendering;
 
 } CONTEXT_STRUCT;
@@ -131,6 +141,7 @@ void drawGrid(CONTEXT context);
 CAR getEmptyCar();
 void printCar(CAR car);
 CAR updateNodeData(CAR car);
+uint getScore(CAR car);
 
 //Context Utils
 CONTEXT createContext();
