@@ -114,7 +114,7 @@ typedef struct
 
 typedef struct thisShouldBeAnObjectOnSoManyLevels
 {
-	CAR * cars;
+	CAR ** cars;
 	uint nbCars;
 	
 	struct
@@ -142,15 +142,16 @@ void drawGrid(CONTEXT context);
 
 //General utils
 CAR getEmptyCar(void);
-void printCar(CAR car);
-CAR updateNodeData(CAR car);
+void printCar(const CAR * car);
+void updateNodeData(CAR * car);
 byte getScore(CAR car);
 uint getRandom(void);
 
 //Car utils
-CAR createRandomCar(void);
+CAR * createRandomCar(void);
 byte carGetRandomDirection(void);
 byte carGetRandomSectionDifferentOf(byte exception);
+void crushCar(CAR * car);
 
 //Context Utils
 CONTEXT createContext(void);
@@ -172,4 +173,5 @@ void printOblique45Road(CONTEXT context);
 void printOblique135Road(CONTEXT context);
 
 //EDI
+void EDIRegisterCarInContext(CONTEXT context, CAR * newCar);
 void EDIProcessContext(CONTEXT context);

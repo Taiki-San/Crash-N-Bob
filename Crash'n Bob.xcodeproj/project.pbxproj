@@ -11,6 +11,7 @@
 		B647D5311BB4347E00A1675D /* EDICore.c in Sources */ = {isa = PBXBuildFile; fileRef = B647D5301BB4347E00A1675D /* EDICore.c */; };
 		B6CC0D801BA94D470039C1DD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7D1BA94D470039C1DD /* main.c */; };
 		B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7F1BA94D470039C1DD /* uiTools.c */; };
+		B6DE72B91BB451330051FECE /* car.c in Sources */ = {isa = PBXBuildFile; fileRef = B6DE72B81BB451330051FECE /* car.c */; };
 		B6E25F451BAD879300A7B12D /* uiCore.c in Sources */ = {isa = PBXBuildFile; fileRef = B6E25F441BAD879300A7B12D /* uiCore.c */; };
 		B6E25F471BAE0AF200A7B12D /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = B6E25F461BAE0AF200A7B12D /* context.c */; };
 /* End PBXBuildFile section */
@@ -53,7 +54,6 @@
 		B647D52F1BB4323800A1675D /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				B6E25F461BAE0AF200A7B12D /* context.c */,
 				B6E25F441BAD879300A7B12D /* uiCore.c */,
 				B6CC0D7F1BA94D470039C1DD /* uiTools.c */,
 			);

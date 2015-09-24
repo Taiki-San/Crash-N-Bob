@@ -99,7 +99,7 @@ void printOblique135Road(CONTEXT context)
 //Sorting work
 int sortCars(const void * _a, const void * _b)
 {
-	const CAR * a = _a, * b = _b;
+	const CAR * a = * (void **) _a, * b = * (void **) _b;
 	
 	if(!a->isInitialized || !b->isInitialized)
 		return a->isInitialized ? -1 : 1;
@@ -137,8 +137,8 @@ int sortCars(const void * _a, const void * _b)
 				//WTF?! There should be a colision
 #ifdef DEBUG_BUILD
 				fputs("Collision detected, WTF?!", stderr);
-				printCar(*a);
-				printCar(*b);
+				printCar(a);
+				printCar(b);
 #endif
 				return 0;
 			}
@@ -163,8 +163,8 @@ int sortCars(const void * _a, const void * _b)
 				//WTF?! There should be a colision
 #ifdef DEBUG_BUILD
 				fputs("Collision detected, WTF?!", stderr);
-				printCar(*a);
-				printCar(*b);
+				printCar(a);
+				printCar(b);
 #endif
 				return 0;
 			}

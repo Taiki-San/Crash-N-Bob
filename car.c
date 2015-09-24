@@ -10,48 +10,50 @@
 
 uint carCount = 0;
 
-CAR createRandomCar()
+CAR * createRandomCar()
 {
-	CAR output;
+	CAR * output = malloc(sizeof(CAR));
 	
 	if(carCount == 0)
 	{
-		output.direction = DIR_SOUTH;
-		output.status = STATUS_OK;
-		output.context.index = 42;
-		output.context.onLeftRoad = false;
-		output.context.section = SECTION_NODE;
+		output->direction = DIR_SOUTH;
+		output->status = STATUS_OK;
+		output->context.index = 42;
+		output->context.onLeftRoad = false;
+		output->context.section = SECTION_NODE;
 	}
 	else if(carCount == 1)
 	{
-		output.direction = DIR_SOUTH;
-		output.status = STATUS_OK;
-		output.context.index = 42;
-		output.context.onLeftRoad = true;
-		output.context.section = SECTION_NODE;
+		output->direction = DIR_SOUTH;
+		output->status = STATUS_OK;
+		output->context.index = 42;
+		output->context.onLeftRoad = true;
+		output->context.section = SECTION_NODE;
 	}
 	else if(carCount == 2)
 	{
-		output.direction = DIR_EAST;
-		output.status = STATUS_OK;
-		output.context.index = 7;
-		output.context.onLeftRoad = false;
-		output.context.section = SECTION_NODE;
+		output->direction = DIR_EAST;
+		output->status = STATUS_OK;
+		output->context.index = 7;
+		output->context.onLeftRoad = false;
+		output->context.section = SECTION_NODE;
 	}
 	else
 	{
-		output.direction = carGetRandomDirection();
-		output.status = (getRandom() & 0x7f) == 0 ? STATUS_DANGER : STATUS_OK;
-		output.context.index = 0;
-		output.context.onLeftRoad = getRandom() & 1;
-		output.context.section = carGetRandomSectionDifferentOf(output.direction);
+		output->direction = carGetRandomDirection();
+		output->status = (getRandom() & 0x7f) == 0 ? STATUS_DANGER : STATUS_OK;
+		output->context.index = 0;
+		output->context.onLeftRoad = getRandom() & 1;
+		output->context.section = carGetRandomSectionDifferentOf(output->direction);
 	}
 	
-	output.speed = (getRandom() & 0x3) == 0 ? SPEED_FAST : SPEED_STANDARD;
-	output.ID = ++carCount;
-	output.isInitialized = true;
+	output->speed = (getRandom() & 0x3) == 0 ? SPEED_FAST : SPEED_STANDARD;
+	output->ID = ++carCount;
+	output->isInitialized = true;
 
-	return updateNodeData(output);
+	updateNodeData(output);
+	
+	return output;
 }
 
 byte carGetRandomDirection()
@@ -72,4 +74,9 @@ byte carGetRandomSectionDifferentOf(byte exception)
 	while((output = carGetRandomDirection()) == exception);
 	
 	return output;
+}
+
+void crushCar(CAR * car)
+{
+	free(car);
 }

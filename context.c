@@ -12,25 +12,24 @@ CONTEXT createContext()
 {
 	CONTEXT context = calloc(1, sizeof(CONTEXT_STRUCT));
 	
-	context->cars = calloc(3, sizeof(CAR));
-	
-	context->cars[0] = createRandomCar();
-	context->cars[1] = createRandomCar();
-	context->cars[2] = createRandomCar();
-	
-	context->nbCars = 3;
+	EDIRegisterCarInContext(context, createRandomCar());
+	EDIRegisterCarInContext(context, createRandomCar());
+	EDIRegisterCarInContext(context, createRandomCar());
 	
 	return context;
 }
 
 void finishedUpdateContext(CONTEXT context)
 {
-	qsort(context->cars, context->nbCars, sizeof(CAR), sortCars);
+	qsort(context->cars, context->nbCars, sizeof(CAR *), sortCars);
 	context->rendering.sorted = true;
 }
 
 void destroyContext(CONTEXT context)
 {
+	while(context->nbCars-- > 0)
+		crushCar(context->cars[context->nbCars]);
+	
 	free(context->cars);
 	free(context);
 }
@@ -60,7 +59,7 @@ CAR contextGetNextCarForRendering(CONTEXT context)
 	
 	//Okay, we need to check if the rendering engine is asking for the next car of the list
 	bool nextIsLegit = false;
-	CAR nextCar = context->cars[context->rendering.currentIndex];
+	CAR nextCar = *context->cars[context->rendering.currentIndex];
 	
 	switch (context->rendering.section)
 	{
