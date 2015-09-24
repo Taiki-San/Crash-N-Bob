@@ -80,6 +80,8 @@ enum
 	
 };
 
+#define EXTERNAL_SLOTS {6, 22, 33, 49}
+
 //Define general purpose structures
 
 typedef struct
@@ -117,10 +119,10 @@ typedef struct thisShouldBeAnObjectOnSoManyLevels
 	
 	struct
 	{
-		uint currentLine;
-		uint currentColumn;
+		byte currentLine;
+		byte currentColumn;
 		
-		uint currentIndex;
+		byte currentIndex;
 		
 		byte section;
 		
@@ -139,13 +141,13 @@ typedef CONTEXT_STRUCT * CONTEXT;
 void drawGrid(CONTEXT context);
 
 //General utils
-CAR getEmptyCar();
+CAR getEmptyCar(void);
 void printCar(CAR car);
 CAR updateNodeData(CAR car);
-uint getScore(CAR car);
+byte getScore(CAR car);
 
 //Context Utils
-CONTEXT createContext();
+CONTEXT createContext(void);
 void destroyContext(CONTEXT context);
 void contextNewPass(CONTEXT context);
 CAR contextGetNextCarForRendering(CONTEXT context);
@@ -156,7 +158,7 @@ int sortCars(const void * _a, const void * _b);
 //UI
 void printChar(char * string, uint nbChar);
 void printSpace(uint nbSpace);
-void flushDisplay();
+void flushDisplay(void);
 char getCarReadableGlyph(CONTEXT context);
 void printWideVerticalRoad(CONTEXT context);
 void printHorizontalRoad(CONTEXT context, uint width, bool wider);

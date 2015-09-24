@@ -236,7 +236,7 @@ int sortCars(const void * _a, const void * _b)
 	return a->context.section - b->context.section;
 }
 
-inline uint getScore(CAR car)
+inline byte getScore(CAR car)
 {
 	if(car.direction == car.context.section)
 		return 2 + (car.context.onLeftRoad ? 0 : 1);
