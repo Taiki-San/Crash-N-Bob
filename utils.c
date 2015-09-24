@@ -54,3 +54,37 @@ CAR updateNodeData(CAR car)
 	
 	return car;
 }
+
+#ifndef __APPLE__
+
+#include <time.h>
+
+static bool seeded = false;
+
+#endif
+
+uint getRandom()
+{
+#ifdef __APPLE__
+	return arc4random();
+#else
+	if(!seeded)
+	{
+		FILE * file = fopen("/dev/urandom", "rb");
+		uint seed;
+		
+		if(file != NULL)
+		{
+			fread(&seed, 1, sizeof(uint), file);
+			fclose(file);
+		}
+		else
+			seed = (uint) time(NULL);
+		
+		srand(seed);
+		seeded = true;
+	}
+	
+	return (uint) rand();
+#endif
+}

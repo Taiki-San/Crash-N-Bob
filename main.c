@@ -10,5 +10,27 @@
 
 int main(int argc, const char * argv[])
 {
+	CONTEXT ctx = createContext();
+	
+	if(ctx == NULL)
+	{
+		printf("Memory error");
+		exit(EXIT_FAILURE);
+	}
+
+	while(ctx->nbCars > 0)
+	{
+		EDIProcessContext(ctx);
+		
+#ifdef DEBUG_BUILD
+		for(uint i = 0; i < ctx->nbCars; ++i)
+			printCar(ctx->cars[i]);
+#endif
+		
+		drawGrid(ctx);
+	}
+	
+	destroyContext(ctx);
+	
 	return 0;
 }

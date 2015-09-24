@@ -145,6 +145,12 @@ CAR getEmptyCar(void);
 void printCar(CAR car);
 CAR updateNodeData(CAR car);
 byte getScore(CAR car);
+uint getRandom(void);
+
+//Car utils
+CAR createRandomCar(void);
+byte carGetRandomDirection(void);
+byte carGetRandomSectionDifferentOf(byte exception);
 
 //Context Utils
 CONTEXT createContext(void);
@@ -164,3 +170,6 @@ void printWideVerticalRoad(CONTEXT context);
 void printHorizontalRoad(CONTEXT context, uint width, bool wider);
 void printOblique45Road(CONTEXT context);
 void printOblique135Road(CONTEXT context);
+
+//EDI
+void EDIProcessContext(CONTEXT context);

@@ -1,5 +1,5 @@
 //
-//  context->c
+//  context.c
 //  Crash'n Bob
 //
 //  Created by Taiki on 19/09/2015.
@@ -14,35 +14,9 @@ CONTEXT createContext()
 	
 	context->cars = calloc(3, sizeof(CAR));
 	
-	context->cars[0].direction = DIR_SOUTH;
-	context->cars[0].ID = 1;
-	context->cars[0].isInitialized = true;
-	context->cars[0].speed = SPEED_STANDARD;
-	context->cars[0].status = STATUS_OK;
-	context->cars[0].context.index = 42;
-	context->cars[0].context.onLeftRoad = false;
-	context->cars[0].context.section = SECTION_NODE;
-	context->cars[0] = updateNodeData(context->cars[0]);
-	
-	context->cars[1].direction = DIR_SOUTH;
-	context->cars[1].ID = 2;
-	context->cars[1].isInitialized = true;
-	context->cars[1].speed = SPEED_STANDARD;
-	context->cars[1].status = STATUS_OK;
-	context->cars[1].context.index = 42;
-	context->cars[1].context.onLeftRoad = true;
-	context->cars[1].context.section = SECTION_NODE;
-	context->cars[1] = updateNodeData(context->cars[1]);
-	
-	context->cars[2].direction = DIR_EAST;
-	context->cars[2].ID = 3;
-	context->cars[2].isInitialized = true;
-	context->cars[2].speed = SPEED_STANDARD;
-	context->cars[2].status = STATUS_OK;
-	context->cars[2].context.index = 7;
-	context->cars[2].context.onLeftRoad = true;
-	context->cars[2].context.section = SECTION_WEST;
-	context->cars[2] = updateNodeData(context->cars[2]);
+	context->cars[0] = createRandomCar();
+	context->cars[1] = createRandomCar();
+	context->cars[2] = createRandomCar();
 	
 	context->nbCars = 3;
 	

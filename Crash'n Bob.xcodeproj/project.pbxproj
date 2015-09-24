@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B63C14C31BAD748700392AB1 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = B63C14C21BAD748700392AB1 /* utils.c */; };
+		B647D5311BB4347E00A1675D /* EDICore.c in Sources */ = {isa = PBXBuildFile; fileRef = B647D5301BB4347E00A1675D /* EDICore.c */; };
 		B6CC0D801BA94D470039C1DD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7D1BA94D470039C1DD /* main.c */; };
 		B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7F1BA94D470039C1DD /* uiTools.c */; };
 		B6E25F451BAD879300A7B12D /* uiCore.c in Sources */ = {isa = PBXBuildFile; fileRef = B6E25F441BAD879300A7B12D /* uiCore.c */; };
@@ -28,10 +29,12 @@
 
 /* Begin PBXFileReference section */
 		B63C14C21BAD748700392AB1 /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = SOURCE_ROOT; };
+		B647D5301BB4347E00A1675D /* EDICore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EDICore.c; sourceTree = SOURCE_ROOT; };
 		B6CC0D701BA9441E0039C1DD /* Crash'n Bob */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Crash'n Bob"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6CC0D7D1BA94D470039C1DD /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = SOURCE_ROOT; };
 		B6CC0D7E1BA94D470039C1DD /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = SOURCE_ROOT; };
 		B6CC0D7F1BA94D470039C1DD /* uiTools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uiTools.c; sourceTree = SOURCE_ROOT; };
+		B6DE72B81BB451330051FECE /* car.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = car.c; sourceTree = SOURCE_ROOT; };
 		B6E25F441BAD879300A7B12D /* uiCore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uiCore.c; sourceTree = SOURCE_ROOT; };
 		B6E25F461BAE0AF200A7B12D /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = context.c; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -57,6 +60,14 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
+		B647D5321BB435E700A1675D /* EDI */ = {
+			isa = PBXGroup;
+			children = (
+				B647D5301BB4347E00A1675D /* EDICore.c */,
+			);
+			name = EDI;
+			sourceTree = "<group>";
+		};
 		B6CC0D671BA9441E0039C1DD = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +87,9 @@
 		B6CC0D721BA9441E0039C1DD /* Crash'n Bob */ = {
 			isa = PBXGroup;
 			children = (
+				B6DE72B81BB451330051FECE /* car.c */,
+				B6E25F461BAE0AF200A7B12D /* context.c */,
+				B647D5321BB435E700A1675D /* EDI */,
 				B6CC0D7D1BA94D470039C1DD /* main.c */,
 				B6CC0D7E1BA94D470039C1DD /* main.h */,
 				B647D52F1BB4323800A1675D /* UI */,
@@ -141,6 +155,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6E25F451BAD879300A7B12D /* uiCore.c in Sources */,
+				B6DE72B91BB451330051FECE /* car.c in Sources */,
+				B647D5311BB4347E00A1675D /* EDICore.c in Sources */,
 				B6E25F471BAE0AF200A7B12D /* context.c in Sources */,
 				B63C14C31BAD748700392AB1 /* utils.c in Sources */,
 				B6CC0D801BA94D470039C1DD /* main.c in Sources */,
