@@ -130,6 +130,16 @@ typedef struct thisShouldBeAnObjectOnSoManyLevels
 		bool sorted;
 		
 	} rendering;
+	
+	struct
+	{
+		CAR ** carsOnExternalRoadsIn;
+		uint nbCarsOnExternalRoadsIn;
+		
+		CAR ** carsOnExternalRoadsOut;
+		uint nbCarsOnExternalRoadsOut;
+		
+	} EDI;
 
 } CONTEXT_STRUCT;
 
@@ -145,6 +155,7 @@ CAR getEmptyCar(void);
 void printCar(const CAR * car);
 void updateNodeData(CAR * car);
 byte getScore(CAR car);
+void ** removeItemAtIndexFromArray(void ** array, uint length, uint index);
 uint getRandom(void);
 
 //Car utils
@@ -174,4 +185,5 @@ void printOblique135Road(CONTEXT context);
 
 //EDI
 void EDIRegisterCarInContext(CONTEXT context, CAR * newCar);
+void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar);
 void EDIProcessContext(CONTEXT context);

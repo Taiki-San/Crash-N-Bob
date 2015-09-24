@@ -53,6 +53,19 @@ void updateNodeData(CAR * car)
 	}
 }
 
+void ** removeItemAtIndexFromArray(void ** array, uint length, uint index)
+{
+	if(index >= length)
+		return array;
+	
+	while(++index < length)
+		array[index - 1] = array[index];
+	
+	void * tmp = realloc(array, --length * sizeof(void *));
+
+	return tmp == NULL ? array : tmp;
+}
+
 #ifndef __APPLE__
 
 #include <time.h>
