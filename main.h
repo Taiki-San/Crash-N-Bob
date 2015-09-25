@@ -29,7 +29,7 @@ enum
 	DIR_RESERVED,
 	DIR_EAST,
 	DIR_SOUTH,
-	DIR_MAX = DIR_WEST
+	DIR_MAX = DIR_SOUTH
 };
 
 enum
