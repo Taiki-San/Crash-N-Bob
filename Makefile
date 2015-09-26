@@ -1,5 +1,5 @@
-CC = GCC
-FLAGS = -Wall -c
+CC = gcc
+FLAGS = -Wall -c --std=c99
 
 TARGET = CrashNBob
 
