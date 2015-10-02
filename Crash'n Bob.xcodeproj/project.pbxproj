@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B62957431BBE7FC40093F477 /* EDITools.c in Sources */ = {isa = PBXBuildFile; fileRef = B62957421BBE7FC40093F477 /* EDITools.c */; };
 		B63C14C31BAD748700392AB1 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = B63C14C21BAD748700392AB1 /* utils.c */; };
 		B647D5311BB4347E00A1675D /* EDICore.c in Sources */ = {isa = PBXBuildFile; fileRef = B647D5301BB4347E00A1675D /* EDICore.c */; };
 		B6CC0D801BA94D470039C1DD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = B6CC0D7D1BA94D470039C1DD /* main.c */; };
@@ -29,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B62957421BBE7FC40093F477 /* EDITools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EDITools.c; sourceTree = SOURCE_ROOT; };
 		B63C14C21BAD748700392AB1 /* utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = SOURCE_ROOT; };
 		B647D5301BB4347E00A1675D /* EDICore.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = EDICore.c; sourceTree = SOURCE_ROOT; };
 		B6CC0D701BA9441E0039C1DD /* Crash'n Bob */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Crash'n Bob"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				B647D5301BB4347E00A1675D /* EDICore.c */,
+				B62957421BBE7FC40093F477 /* EDITools.c */,
 			);
 			name = EDI;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				B6E25F471BAE0AF200A7B12D /* context.c in Sources */,
 				B63C14C31BAD748700392AB1 /* utils.c in Sources */,
 				B6CC0D801BA94D470039C1DD /* main.c in Sources */,
+				B62957431BBE7FC40093F477 /* EDITools.c in Sources */,
 				B6CC0D811BA94D470039C1DD /* uiTools.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -43,8 +43,6 @@ CAR * createRandomCar()
 		output->direction = carGetRandomDirection();
 		output->status = (getRandom() & 0x7f) == 0 ? STATUS_DANGER : STATUS_OK;
 		output->context.index = 0;
-		output->context.onLeftRoad = getRandom() & 1;
-		output->context.section = carGetRandomSectionDifferentOf(output->direction);
 	}
 	
 	output->speed = (getRandom() & 0x3) == 0 ? SPEED_FAST : SPEED_STANDARD;

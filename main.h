@@ -26,19 +26,20 @@ enum
 {
 	DIR_NORTH,
 	DIR_WEST,
-	DIR_RESERVED,
 	DIR_EAST,
 	DIR_SOUTH,
-	DIR_MAX = DIR_SOUTH
+	DIR_RESERVED
 };
 
 enum
 {
 	SECTION_NORTH = DIR_NORTH,
 	SECTION_WEST = DIR_WEST,
-	SECTION_NODE = DIR_RESERVED,
 	SECTION_EAST = DIR_EAST,
-	SECTION_SOUTH = DIR_SOUTH
+	SECTION_SOUTH = DIR_SOUTH,
+	SECTION_NODE = DIR_RESERVED,
+	SECTION_MAX = SECTION_NODE,
+	SECTION_EXTERNAL = 4
 };
 
 enum
@@ -112,6 +113,23 @@ typedef struct
 	
 } CAR;
 
+//Could be made slightly more memory efficient at the cost of access
+//Considering the ridiculous amounts at stake, and how often I'll need to access, I go with minimizing time complexity
+typedef struct thatIsForWhatHashTableAreGoodAtDammit
+{
+	CAR * goingIn[NB_SLOTS_BORDER][2];
+	CAR * goingOut[NB_SLOTS_BORDER][2];
+	
+	byte section;
+	
+} EDI_EXT_ROAD;
+
+typedef struct thisOneTooByTheWay
+{
+	CAR * node[NB_SLOTS_BORDER][2];
+	
+} EDI_NODE;
+
 typedef struct thisShouldBeAnObjectOnSoManyLevels
 {
 	CAR ** cars;
@@ -133,11 +151,9 @@ typedef struct thisShouldBeAnObjectOnSoManyLevels
 	
 	struct
 	{
-		CAR ** carsOnExternalRoadsIn;
-		uint nbCarsOnExternalRoadsIn;
 		
-		CAR ** carsOnExternalRoadsOut;
-		uint nbCarsOnExternalRoadsOut;
+		EDI_EXT_ROAD externalRoads[SECTION_EXTERNAL];
+		EDI_NODE node;
 		
 	} EDI;
 
@@ -164,7 +180,7 @@ byte carGetRandomDirection(void);
 byte carGetRandomSectionDifferentOf(byte exception);
 void crushCar(CAR * car);
 
-//Context Utils
+//Context utils
 CONTEXT createContext(void);
 void destroyContext(CONTEXT context);
 void contextNewPass(CONTEXT context);
@@ -183,7 +199,17 @@ void printHorizontalRoad(CONTEXT context, uint width, bool wider);
 void printOblique45Road(CONTEXT context);
 void printOblique135Road(CONTEXT context);
 
+//EDI utils
+bool isValidSection(byte section);
+bool EDIHaveFreeSlotToEnterSection(CONTEXT context, byte section);
+
 //EDI
 void EDIRegisterCarInContext(CONTEXT context, CAR * newCar);
 void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar);
 void EDIProcessContext(CONTEXT context);
+
+void EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft);
+void EDIProcessCarLeavingOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
+void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
+void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
+bool EDIIsExternalSlotAvailable(EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
