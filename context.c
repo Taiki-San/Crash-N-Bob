@@ -13,8 +13,6 @@ CONTEXT createContext()
 	CONTEXT context = calloc(1, sizeof(CONTEXT_STRUCT));
 	
 	EDIRegisterCarInContext(context, createRandomCar());
-	EDIRegisterCarInContext(context, createRandomCar());
-	EDIRegisterCarInContext(context, createRandomCar());
 	
 	return context;
 }
@@ -189,14 +187,14 @@ void contextJumpNewLine(CONTEXT context)
 	
 	switch(context->rendering.currentLine)
 	{
-		case NB_SLOTS_BORDER:
-		case NB_SLOTS_BORDER + AREA_NODE_BEFORE_MERGE + WIDTH_NODE_MERGE:
+		case NB_SLOTS_BORDER + 1:
+		case NB_SLOTS_BORDER + 1 + AREA_NODE_BEFORE_MERGE + WIDTH_NODE_MERGE:
 		{
 			context->rendering.section = SECTION_NODE;
 			break;
 		}
 			
-		case NB_SLOTS_BORDER + AREA_NODE_BEFORE_MERGE:
+		case NB_SLOTS_BORDER + 1 + AREA_NODE_BEFORE_MERGE:
 		{
 			context->rendering.section = SECTION_WEST;
 			break;

@@ -20,14 +20,15 @@ int main(int argc, const char * argv[])
 
 	while(ctx->nbCars > 0)
 	{
-		EDIProcessContext(ctx);
-		
 #ifdef DEBUG_BUILD
 		for(uint i = 0; i < ctx->nbCars; ++i)
 			printCar(ctx->cars[i]);
 #endif
-		
 		drawGrid(ctx);
+
+		EDIProcessContext(ctx);
+
+		usleep(100000);
 	}
 	
 	destroyContext(ctx);

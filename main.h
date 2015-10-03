@@ -12,12 +12,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <unistd.h>
 
 #define DEBUG_BUILD
 
 //Some custom types
 
-typedef unsigned char byte;
+typedef uint8_t byte;
 typedef unsigned int uint;
 
 //Define various constants
@@ -63,8 +64,8 @@ enum
 
 enum
 {
-	HEIGHT = 41,
-	WIDTH = 41,
+	HEIGHT = 40,
+	WIDTH = 40,
 	
 	LENGTH_BORDER	= 33,
 	LENGTH_NODE		= 29,
@@ -81,7 +82,8 @@ enum
 	
 };
 
-#define EXTERNAL_SLOTS {6, 22, 33, 49}
+#define EXTERNAL_SLOTS	{6, 22, 33, 49}
+#define ENTRY_SLOTS		{2, 16, 29, 43}
 
 //Define general purpose structures
 
@@ -209,6 +211,9 @@ void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar);
 void EDIProcessContext(CONTEXT context);
 
 void EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft);
+bool EDIIsNodeSlotAvailableFullCheck(EDI_NODE currentNode, uint posInLine, bool isLeft);
+bool EDIIsNodeSlotAvailable(EDI_NODE currentNode, uint posInLine, bool isLeft);
+
 void EDIProcessCarLeavingOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
 void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
 void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);

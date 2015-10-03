@@ -21,10 +21,10 @@ void EDIRegisterCarInContext(CONTEXT context, CAR * newCar)
 	}
 	
 	//Okay, now, determine a slot on the external roads in which we could fit the new car
-	byte baseSection = carGetRandomSectionDifferentOf(newCar->context.section);
+	byte baseSection = carGetRandomSectionDifferentOf(newCar->direction);
 	for(byte i = 0; i < SECTION_EXTERNAL - 1; ++i)
 	{
-		if(EDIHaveFreeSlotToEnterSection(context, baseSection + i))
+		if(EDIHaveFreeSlotToEnterSection(context, baseSection + i) && baseSection % SECTION_EXTERNAL != newCar->direction)
 		{
 			baseSection += i;
 			baseSection %= SECTION_EXTERNAL;
@@ -101,7 +101,7 @@ void EDIProcessContext(CONTEXT context)
 	{
 		EDI_EXT_ROAD * workingSection = &context->EDI.externalRoads[section];
 		
-		for(uint pos = 0; pos < NB_SLOTS_BORDER; ++pos)
+		for(uint pos = NB_SLOTS_BORDER; pos-- > 0;)
 		{
 			EDIProcessCarEnteringOnExternalRoad(context, workingSection, pos, true);
 			EDIProcessCarEnteringOnExternalRoad(context, workingSection, pos, false);
@@ -113,9 +113,34 @@ void EDIProcessContext(CONTEXT context)
 
 #pragma mark - Node processing
 
+#define GET_CAR_NODE(section, posInLine, isLeft) section.node[posInLine][isLeft]
+#define GET_CAR(section, goingIn, posInLine, isLeft) (goingIn ? section->goingIn : section->goingOut)[posInLine][isLeft]
+
 void EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 {
 #warning "TODO"
+}
+
+bool EDIIsNodeSlotAvailableFullCheck(EDI_NODE currentNode, uint posInLine, bool isLeft)
+{
+	if(isLeft)
+	{
+		for(byte forbiddenSpots[4] = EXTERNAL_SLOTS, i = 0; i < 4; ++i)
+		{
+			if(posInLine < forbiddenSpots[i])
+				break;
+			
+			if(posInLine == forbiddenSpots[i])
+				return false;
+		}
+	}
+	
+	return EDIIsNodeSlotAvailable(currentNode, posInLine, isLeft);
+}
+
+bool EDIIsNodeSlotAvailable(EDI_NODE currentNode, uint posInLine, bool isLeft)
+{
+	return GET_CAR_NODE(currentNode, posInLine, isLeft) == NULL;
 }
 
 #pragma mark - External road processing
@@ -132,33 +157,68 @@ void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * working
 
 void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft)
 {
-	if((goingIn ? workingSection->goingIn : workingSection->goingOut)[posInLine][isLeft] == NULL)
+	if(GET_CAR(workingSection, goingIn, posInLine, isLeft) == NULL)
 		return;
 	
-	CAR * currentCar = (goingIn ? workingSection->goingIn : workingSection->goingOut)[posInLine][isLeft];
+	uint oldPosInLine = posInLine;
+	CAR * currentCar = GET_CAR(workingSection, goingIn, posInLine, isLeft);
 	
 	//The car can't move for now
+	if(currentCar->status != STATUS_OK && currentCar->status != STATUS_DANGER)
+		return;
 	
-	if(currentCar->status != STATUS_OK && currentCar->status != STATUS_DANGER);
-	
-	//The car is getting out \o/
-	else if(!goingIn && posInLine == 0)
-		EDIRemoveCarFromContext(context, currentCar);
-	
-#warning "TODO"
-	else if(goingIn && posInLine == NB_SLOTS_NODE)
+	for(byte speed = currentCar->speed; speed > 0; --speed)
 	{
+		//The car is getting out \o/
+		if(!goingIn && posInLine == 0)
+		{
+			EDIRemoveCarFromContext(context, currentCar);
+			break;
+		}
 		
-	}
-
-	else
-	{
-		char delta = goingIn ? 1 : -1;
+		else if(goingIn && posInLine == NB_SLOTS_NODE)
+		{
+			const byte entrySlots[4] = ENTRY_SLOTS;
+			
+			if(EDIIsNodeSlotAvailable(context->EDI.node, entrySlots[currentCar->context.section], isLeft))
+			{
+				GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) = NULL;
+				GET_CAR_NODE(context->EDI.node, entrySlots[currentCar->context.section], isLeft) = currentCar;
+				
+				currentCar->context.index = entrySlots[currentCar->context.section];
+				currentCar->context.section = SECTION_NODE;
+				currentCar->context.onLeftRoad = false;
+				updateNodeData(currentCar);
+			}
+			
+			break;
+		}
+		
+		else
+		{
+			if(goingIn)
+				++posInLine;
+			else
+				--posInLine;
+			
+			for(byte flag = 0; flag < 2; ++flag)
+			{
+				if(EDIIsExternalSlotAvailable(workingSection, goingIn, posInLine, flag))
+				{
+					GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) = NULL;
+					GET_CAR(workingSection, goingIn, posInLine, flag) = currentCar;
+					oldPosInLine = posInLine;
+					
+					currentCar->context.index = posInLine & 0xff;
+					break;
+				}
+			}
+		}
 	}
 }
 
 //This function is super time critical and should be as optimized as possible
 bool EDIIsExternalSlotAvailable(EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft)
 {
-	return (goingIn ? workingSection->goingIn : workingSection->goingOut)[posInLine][isLeft] == NULL;
+	return GET_CAR(workingSection, goingIn, posInLine, isLeft) == NULL;
 }
