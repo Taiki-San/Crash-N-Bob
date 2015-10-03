@@ -83,7 +83,7 @@ enum
 };
 
 #define EXTERNAL_SLOTS	{6, 22, 33, 49}
-#define ENTRY_SLOTS		{2, 16, 29, 43}
+#define ENTRY_SLOTS		{2, 16, 43, 29}
 
 //Define general purpose structures
 
@@ -128,7 +128,7 @@ typedef struct thatIsForWhatHashTableAreGoodAtDammit
 
 typedef struct thisOneTooByTheWay
 {
-	CAR * node[NB_SLOTS_BORDER][2];
+	CAR * node[NB_SLOTS_NODE][2];
 	
 } EDI_NODE;
 

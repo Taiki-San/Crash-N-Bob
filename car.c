@@ -16,7 +16,6 @@ CAR * createRandomCar()
 	
 	output->direction = carGetRandomDirection();
 	output->status = (getRandom() & 0x7f) == 0 ? STATUS_DANGER : STATUS_OK;
-	output->context.index = 0;
 	output->speed = (getRandom() & 0x3) == 0 ? SPEED_FAST : SPEED_STANDARD;
 	output->ID = ++carCount;
 	output->isInitialized = true;

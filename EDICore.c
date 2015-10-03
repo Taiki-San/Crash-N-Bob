@@ -176,19 +176,20 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 			break;
 		}
 		
-		else if(goingIn && posInLine == NB_SLOTS_NODE)
+		else if(goingIn && posInLine == NB_SLOTS_BORDER - 1)
 		{
 			const byte entrySlots[4] = ENTRY_SLOTS;
 			
 			if(EDIIsNodeSlotAvailable(context->EDI.node, entrySlots[currentCar->context.section], isLeft))
 			{
-				GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) = NULL;
-				GET_CAR_NODE(context->EDI.node, entrySlots[currentCar->context.section], isLeft) = currentCar;
-				
-				currentCar->context.index = entrySlots[currentCar->context.section];
+				currentCar->context.index = entrySlots[currentCar->context.section] - isLeft;
 				currentCar->context.section = SECTION_NODE;
 				currentCar->context.onLeftRoad = false;
+
 				updateNodeData(currentCar);
+
+				GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) = NULL;
+				GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft) = currentCar;
 			}
 			
 			break;
@@ -209,6 +210,7 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 					GET_CAR(workingSection, goingIn, posInLine, flag) = currentCar;
 					oldPosInLine = posInLine;
 					
+					currentCar->context.onLeftRoad = flag;
 					currentCar->context.index = posInLine & 0xff;
 					break;
 				}
