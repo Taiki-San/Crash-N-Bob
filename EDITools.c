@@ -23,3 +23,14 @@ bool EDIHaveFreeSlotToEnterSection(CONTEXT context, byte section)
 	
 	return context->EDI.externalRoads[section].goingIn[0][0] == NULL || context->EDI.externalRoads[section].goingIn[0][1] == NULL;
 }
+
+bool EDIIsSlotReservedForExternalRing(uint index)
+{
+	for(byte i = 0; i < 4; ++i)
+	{
+		if(((byte [4]) EXTERNAL_SLOTS)[i] == index)
+			return true;
+	}
+	
+	return false;
+}

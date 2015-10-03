@@ -84,6 +84,7 @@ enum
 
 #define EXTERNAL_SLOTS	{6, 22, 33, 49}
 #define ENTRY_SLOTS		{2, 16, 43, 29}
+#define EXIT_SLOTS		{52, 12, 39, 25}
 
 //Define general purpose structures
 
@@ -210,11 +211,16 @@ void EDIRegisterCarInContext(CONTEXT context, CAR * newCar);
 void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar);
 void EDIProcessContext(CONTEXT context);
 
-void EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft);
+bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft);
+bool EDIIsCarInQuarterBeforeExit(byte index, byte direction);
 bool EDIIsNodeSlotAvailableFullCheck(EDI_NODE currentNode, uint posInLine, bool isLeft);
 bool EDIIsNodeSlotAvailable(EDI_NODE currentNode, uint posInLine, bool isLeft);
+bool EDIIsCarInFrontOfExit(byte index, byte direction);
+bool EDIIsCarOnLastStepExit(byte index, byte direction);
 
 void EDIProcessCarLeavingOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
 void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
 void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
 bool EDIIsExternalSlotAvailable(EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
+
+bool EDIIsSlotReservedForExternalRing(uint index);
