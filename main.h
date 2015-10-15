@@ -78,7 +78,9 @@ enum
 	NB_SLOTS_NODE = 54,
 	
 	AREA_NODE_BEFORE_MERGE = 8,
-	WIDTH_NODE_MERGE = 5
+	WIDTH_NODE_MERGE = 5,
+	
+	DEFAULT_ACCIDENT_DELAY = 20
 	
 };
 
@@ -97,6 +99,8 @@ typedef struct
 	byte speed;
 	
 	byte status;
+	
+	byte accidentDelay;
 	
 	bool isInitialized;
 	
@@ -222,5 +226,6 @@ void EDIProcessCarLeavingOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingS
 void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
 void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
 bool EDIIsExternalSlotAvailable(EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
-
 bool EDIIsSlotReservedForExternalRing(uint index);
+bool EDICarShouldMove(CAR * car);
+void EDITransitionCars(CAR ** car1, CAR ** car2);

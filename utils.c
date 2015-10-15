@@ -61,6 +61,12 @@ void ** removeItemAtIndexFromArray(void ** array, uint length, uint index)
 	while(++index < length)
 		array[index - 1] = array[index];
 	
+	if(--length == 0)
+	{
+		free(array);
+		return NULL;
+	}
+	
 	void * tmp = realloc(array, --length * sizeof(void *));
 
 	return tmp == NULL ? array : tmp;
