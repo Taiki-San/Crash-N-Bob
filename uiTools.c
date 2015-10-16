@@ -122,7 +122,7 @@ int sortCars(const void * _a, const void * _b)
 			case SECTION_SOUTH:
 			{
 				if(a->context.index != b->context.index)
-					return a->context.index - b->context.index;
+					return (a->context.index - b->context.index) * (priorityLeft ? 1 : -1);
 				
 				//Depending of the destination, we could be going to the border of the display
 				cachedOnLeft = a->direction == a->context.section;
@@ -180,57 +180,62 @@ int sortCars(const void * _a, const void * _b)
 	}
 	
 	//Not in the same section but possibly on the same line
-	if((a->context.section == SECTION_NODE ^ b->context.section == SECTION_NODE)
-	   && ((b->context.section == SECTION_WEST || b->context.section == SECTION_EAST)
-		   ^ (a->context.section == SECTION_WEST || a->context.section == SECTION_EAST)))
+	if(a->context.section == SECTION_NODE ^ b->context.section == SECTION_NODE)
 	{
-		const CAR * nodeCar, * otherCar;
-		int ifNodeWin;
-		if(a->context.section == SECTION_NODE)
+		if((b->context.section == SECTION_WEST || b->context.section == SECTION_EAST) ^ (a->context.section == SECTION_WEST || a->context.section == SECTION_EAST))
 		{
-			nodeCar = a;
-			otherCar = b;
-			ifNodeWin = -1;
+			const CAR * nodeCar, * otherCar;
+			int ifNodeWin;
+			if(a->context.section == SECTION_NODE)
+			{
+				nodeCar = a;
+				otherCar = b;
+				ifNodeWin = -1;
+			}
+			else
+			{
+				nodeCar = b;
+				otherCar = a;
+				ifNodeWin = 1;
+			}
+			
+			//Over or under the entry
+			if(nodeCar->context.lineOfNode < 8)
+				return ifNodeWin;
+			
+			else if(nodeCar->context.lineOfNode > 12)
+				return ifNodeWin * -1;
+			
+			//Geting tricky
+			uint lineCode = getScore(*otherCar);
+			if(otherCar->context.section == SECTION_WEST)
+				lineCode = 3 - lineCode;
+			
+			//There is an empty line in the middle of the external road
+			if(lineCode > 1)
+				++lineCode;
+			
+			lineCode += 8;	//Offset
+			
+			//Node car is below the other one
+			if(lineCode < nodeCar->context.lineOfNode)
+				return ifNodeWin * -1;
+			
+			//Node car is over the other one
+			else if(lineCode > nodeCar->context.lineOfNode)
+				return ifNodeWin;
+			
+			//Node car is on the same line, but after the other one
+			else if(otherCar->context.section == SECTION_WEST)
+				return ifNodeWin * -1;
+			
+			//Same line, 
+			return ifNodeWin;
 		}
+		else if(a->context.section == SECTION_NODE)
+			return b->context.section == SECTION_SOUTH ? -1 : 1;
 		else
-		{
-			nodeCar = b;
-			otherCar = a;
-			ifNodeWin = 1;
-		}
-		
-		//Over or under the entry
-		if(nodeCar->context.lineOfNode < 8)
-			return ifNodeWin;
-		
-		else if(nodeCar->context.lineOfNode > 12)
-			return ifNodeWin * -1;
-		
-		//Geting tricky
-		uint lineCode = getScore(*otherCar);
-		if(otherCar->context.section == SECTION_WEST)
-			lineCode = 3 - lineCode;
-		
-		//There is an empty line in the middle of the external road
-		if(lineCode > 1)
-			++lineCode;
-		
-		lineCode += 8;	//Offset
-		
-		//Node car is below the other one
-		if(lineCode < nodeCar->context.lineOfNode)
-			return ifNodeWin * -1;
-		
-		//Node car is over the other one
-		else if(lineCode > nodeCar->context.lineOfNode)
-			return ifNodeWin;
-		
-		//Node car is on the same line, but after the other one
-		else if(otherCar->context.section == SECTION_WEST)
-			return ifNodeWin * -1;
-		
-		//Same line, 
-		return ifNodeWin;
+			return a->context.section == SECTION_SOUTH ? 1 : -1;
 	}
 	
 	return a->context.section - b->context.section;

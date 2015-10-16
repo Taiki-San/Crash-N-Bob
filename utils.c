@@ -19,7 +19,7 @@ CAR getEmptyCar()
 
 void printCar(const CAR * car)
 {
-	fprintf(stderr, "Debug data:\n	ID: %u\n	direction: %d\n	speed: %d\n	status: %d\n	isInitialized: %d\n	index: %d\n	section: %d\n	onLeftRoad: %d\n", car->ID, car->direction, car->speed, car->status, car->isInitialized, car->context.index, car->context.section, car->context.onLeftRoad);
+	fprintf(stderr, "Debug data: %p\n	ID: %u\n	direction: %d\n	speed: %d\n	status: %d\n	isInitialized: %d\n	index: %d\n	section: %d\n	onLeftRoad: %d\n", car, car->ID, car->direction, car->speed, car->status, car->isInitialized, car->context.index, car->context.section, car->context.onLeftRoad);
 }
 
 void updateNodeData(CAR * car)
@@ -67,7 +67,7 @@ void ** removeItemAtIndexFromArray(void ** array, uint length, uint index)
 		return NULL;
 	}
 	
-	void * tmp = realloc(array, --length * sizeof(void *));
+	void * tmp = realloc(array, length * sizeof(void *));
 
 	return tmp == NULL ? array : tmp;
 }

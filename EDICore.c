@@ -10,6 +10,9 @@
 
 #include "main.h"
 
+#define GET_CAR_NODE(section, posInLine, isLeft) section.node[posInLine][isLeft]
+#define GET_CAR(section, goIn, posInLine, isLeft) (goIn ? section->goingIn : section->goingOut)[posInLine][isLeft]
+
 void EDIRegisterCarInContext(CONTEXT context, CAR * newCar)
 {
 	//We check we simply have space
@@ -58,14 +61,21 @@ void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar)
 {
 	for (uint i = 0, length = context->nbCars; i < length; ++i)
 	{
-		if(context->cars[i] == oldCar)
+		if(context->cars[i]->ID == oldCar->ID)
 		{
+#ifdef DEBUG_BUILD
+			printf("\nFlushing car from array: current ptr %p (size %u)\n", context->cars, context->nbCars);
+			printCar(oldCar);
+#endif
 			context->cars = (CAR **) removeItemAtIndexFromArray((void **) context->cars, context->nbCars--, i);
+#ifdef DEBUG_BUILD
+			printf("Resized: new ptr %p (size %u)\n\n", context->cars, context->nbCars);
+#endif
 			
 			if(oldCar->context.section == SECTION_NODE)
-				context->EDI.node.node[oldCar->context.index][oldCar->context.onLeftRoad] = NULL;
+				GET_CAR_NODE(context->EDI.node, oldCar->context.index, oldCar->context.onLeftRoad) = NULL;
 			else
-				context->EDI.externalRoads[oldCar->context.section].goingIn[oldCar->context.index][oldCar->context.onLeftRoad] = NULL;
+				GET_CAR((&context->EDI.externalRoads[oldCar->context.section]), false, oldCar->context.index, oldCar->context.onLeftRoad) = NULL;
 			break;
 		}
 	}
@@ -128,9 +138,6 @@ void EDIProcessContext(CONTEXT context)
 
 #pragma mark - Node processing
 
-#define GET_CAR_NODE(section, posInLine, isLeft) section.node[posInLine][isLeft]
-#define GET_CAR(section, goIn, posInLine, isLeft) (goIn ? section->goingIn : section->goingOut)[posInLine][isLeft]
-
 bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 {
 	CAR * currentCar = GET_CAR_NODE(context->EDI.node, posInLine, isLeft);
@@ -159,7 +166,7 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 	if(isInFrontOfExit && isLeft && EDIIsNodeSlotAvailableFullCheck(context->EDI.node, oldPosInLine, wantToGoToLeft))
 	{
 #ifdef DEBUG_BUILD
-		puts("Successfully steared toward the external ring");
+		printf("[%d]: Successfully steared toward the external ring\n", currentCar->ID);
 #endif
 	}
 	
@@ -167,7 +174,7 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 	{
 		//\o/
 #ifdef DEBUG_BUILD
-		puts("Successfully got out of the ring");
+		printf("[%d]: Successfully got out of the ring\n", currentCar->ID);
 #endif
 		gotOut = true;
 	}
@@ -177,7 +184,7 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 	{
 		//ᕕ( ᐛ )ᕗ
 #ifdef DEBUG_BUILD
-		puts("Successfully went to our optimal goal");
+		printf("[%d]: Successfully went to our optimal goal\n", currentCar->ID);
 #endif
 	}
 	
@@ -185,12 +192,18 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 	else if(EDIIsNodeSlotAvailableFullCheck(context->EDI.node, posInLine, !wantToGoToLeft))
 	{
 		wantToGoToLeft = !wantToGoToLeft;
+#ifdef DEBUG_BUILD
+		printf("[%d]: Changing line forward\n", currentCar->ID);
+#endif
 	}
 
 	//No space to go forward, but can we change line?
 	else if(EDIIsNodeSlotAvailableFullCheck(context->EDI.node, oldPosInLine, wantToGoToLeft))
 	{
 		posInLine = oldPosInLine;
+#ifdef DEBUG_BUILD
+		printf("[%d]: Changing line\n", currentCar->ID);
+#endif
 	}
 
 	//Nope :(
@@ -218,6 +231,10 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 		
 		EDITransitionCars(&GET_CAR_NODE(context->EDI.node, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, wantToGoToLeft));
 	}
+	
+#ifdef DEBUG_BUILD
+	printCar(currentCar);
+#endif
 
 	return false;
 }
@@ -314,8 +331,21 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 				currentCar->context.onLeftRoad = false;
 
 				updateNodeData(currentCar);
+				
+#ifdef DEBUG_BUILD
+				if(GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) != currentCar)
+					printf("Trying to get a car to enter from an empty slot? WTF?!");
+#endif
 
 				EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft));
+				
+#ifdef DEBUG_BUILD
+				if(GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) != NULL)
+				{
+					printf("Failed to move the car!??!! WTFH? Reexecuting the line to tracing");
+					EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft));
+				}
+#endif
 			}
 			
 			break;
