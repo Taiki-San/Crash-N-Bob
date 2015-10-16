@@ -106,7 +106,7 @@ int sortCars(const void * _a, const void * _b)
 
 	if(a->context.section == b->context.section)
 	{
-		bool cachedOnLeft, priorityLeft = false;
+		bool priorityLeft = false;
 		
 		switch (a->context.section)
 		{
@@ -123,16 +123,11 @@ int sortCars(const void * _a, const void * _b)
 			{
 				if(a->context.index != b->context.index)
 					return (a->context.index - b->context.index) * (priorityLeft ? 1 : -1);
-				
-				//Depending of the destination, we could be going to the border of the display
-				cachedOnLeft = a->direction == a->context.section;
-				if(cachedOnLeft != (b->direction == a->context.section))
-					return (cachedOnLeft ^ priorityLeft) ? -1 : 1;
-				
-				//Same stage
-				cachedOnLeft = a->context.onLeftRoad;
-				if(cachedOnLeft != b->context.onLeftRoad)
-					return !(cachedOnLeft ^ priorityLeft) ? -1 : 1;
+
+				//Checking the index of the given row
+				uint scoreA = getScore(*a), scoreB = getScore(*b);
+				if(scoreA != scoreB)
+					return (scoreA > scoreB ? -1 : 1) * (priorityLeft ? -1 : 1);
 				
 				//WTF?! There should be a colision
 #ifdef DEBUG_BUILD
@@ -244,8 +239,14 @@ int sortCars(const void * _a, const void * _b)
 		
 		//We determine a score depending of the line
 		uint scoreA = getScore(*a), scoreB = getScore(*b);
+		
+		if(a->context.section == SECTION_WEST)
+			scoreA = 3 - scoreA;
+		else
+			scoreB = 3 - scoreB;
+		
 		if(scoreA != scoreB)
-			return scoreA > scoreB ? -1 : 1;
+			return scoreA > scoreB ? 1 : -1;
 		
 		//And on the same line, the standard computation is enough to choose
 	}

@@ -20,11 +20,26 @@ int main(int argc, const char * argv[])
 
 	while(ctx->nbCars > 0)
 	{
+		if(ctx->nbCars < 9 && getRandom() % 4 == 0)
+		{
+			EDIRegisterCarInContext(ctx, createRandomCar());
+			finishedUpdateContext(ctx);
+		}
+		
 #ifdef DEBUG_BUILD
+		puts("\n\nDumping all the data \\o/\n");
 		for(uint i = 0; i < ctx->nbCars; ++i)
 			printCar(ctx->cars[i]);
 #endif
 		drawGrid(ctx);
+		
+#ifdef DEBUG_BUILD
+		if(ctx->rendering.currentIndex != ctx->nbCars)
+		{
+			puts("Not so fast! We missed a couple of cars");
+			finishedUpdateContext(ctx);
+		}
+#endif
 
 		EDIProcessContext(ctx);
 

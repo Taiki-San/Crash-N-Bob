@@ -56,23 +56,24 @@ bool EDICarShouldMove(CAR * car)
 	return false;
 }
 
-void EDITransitionCars(CAR ** car1, CAR ** car2)
+bool EDITransitionCars(CAR ** car1, CAR ** car2)
 {
 	//No move
 	if(car1 == car2 || *car1 == *car2)
-		return;
+		return true;
 	
 	if(*car2 == NULL)
 	{
 		*car2 = *car1;
 		*car1 = NULL;
+		return true;
 	}
-	else
-	{
-		(*car1)->status = STATUS_DAMAGED;
-		(*car1)->accidentDelay = DEFAULT_ACCIDENT_DELAY;
-		
-		(*car2)->status = STATUS_DAMAGED;
-		(*car2)->accidentDelay = DEFAULT_ACCIDENT_DELAY;
-	}
+
+	(*car1)->status = STATUS_DAMAGED;
+	(*car1)->accidentDelay = DEFAULT_ACCIDENT_DELAY;
+	
+	(*car2)->status = STATUS_DAMAGED;
+	(*car2)->accidentDelay = DEFAULT_ACCIDENT_DELAY;
+
+	return false;
 }

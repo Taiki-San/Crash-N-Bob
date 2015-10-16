@@ -154,6 +154,7 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 	
 	const bool inLastQuarter = EDIIsCarInQuarterBeforeExit(currentCar->context.index, currentCar->direction), isInFrontOfExit = EDIIsCarInFrontOfExit(oldPosInLine & 0xff, currentCar->direction);
 	bool wantToGoToLeft = !inLastQuarter, gotOut = false;
+	const CAR backupCar = *currentCar;
 	
 	//So, in the node, there is couple of scenarios:
 	//	1. We just entered, we try to get in the internal road (shorter, 4 less slots than the external ring)
@@ -220,7 +221,8 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 		
 		EDI_EXT_ROAD * section = &context->EDI.externalRoads[currentCar->direction];
 		
-		EDITransitionCars(&GET_CAR_NODE(context->EDI.node, oldPosInLine, isLeft), &GET_CAR(section, false, currentCar->context.index, currentCar->context.onLeftRoad));
+		if(!EDITransitionCars(&GET_CAR_NODE(context->EDI.node, oldPosInLine, isLeft), &GET_CAR(section, false, currentCar->context.index, currentCar->context.onLeftRoad)))
+			currentCar->context = backupCar.context;
 	}
 	else
 	{
@@ -229,7 +231,8 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 		
 		updateNodeData(currentCar);
 		
-		EDITransitionCars(&GET_CAR_NODE(context->EDI.node, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, wantToGoToLeft));
+		if(!EDITransitionCars(&GET_CAR_NODE(context->EDI.node, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, wantToGoToLeft)))
+			currentCar->context = backupCar.context;
 	}
 	
 #ifdef DEBUG_BUILD
@@ -239,7 +242,7 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
 	return false;
 }
 
-bool EDIIsCarInQuarterBeforeExit(byte index, byte direction)
+bool EDIIsCarInQuarterBeforeExit(uint16_t index, byte direction)
 {
 	byte divide = NB_SLOTS_NODE / 4;
 	
@@ -257,12 +260,12 @@ bool EDIIsCarInQuarterBeforeExit(byte index, byte direction)
 	return false;
 }
 
-inline bool EDIIsCarInFrontOfExit(byte index, byte direction)
+inline bool EDIIsCarInFrontOfExit(uint16_t index, byte direction)
 {
 	return ((byte [4]) EXIT_SLOTS)[direction] == index || EDIIsCarOnLastStepExit(index, direction);
 }
 
-inline bool EDIIsCarOnLastStepExit(byte index, byte direction)
+inline bool EDIIsCarOnLastStepExit(uint16_t index, byte direction)
 {
 	return ((byte [4]) EXIT_SLOTS)[direction] == index - 1;
 }
@@ -305,11 +308,20 @@ void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * working
 
 void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft)
 {
+	const void * a = workingSection;
+	const bool b = goingIn, d = isLeft;
+	const uint c = posInLine;
+
 	CAR * currentCar = GET_CAR(workingSection, goingIn, posInLine, isLeft);
 	if(!EDICarShouldMove(currentCar))
 		return;
 	
+#ifdef DEBUG_BUILD
+	printf("Processing %p %d %u %d -> %p\n", a, b, c, d, currentCar);
+#endif
+	
 	uint oldPosInLine = posInLine;
+	const CAR backupCar = *currentCar;
 	
 	for(byte speed = currentCar->speed; speed > 0; --speed)
 	{
@@ -334,16 +346,23 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 				
 #ifdef DEBUG_BUILD
 				if(GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) != currentCar)
-					printf("Trying to get a car to enter from an empty slot? WTF?!");
+				{
+					printf("Trying to get a car to enter from an empty slot? WTF?!\n");
+					break;
+				}
+				
+				printf("[%d] Leaving the external road\n", currentCar->ID);
 #endif
 
-				EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft));
+				if(!EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft)))
+					currentCar->context = backupCar.context;
 				
 #ifdef DEBUG_BUILD
 				if(GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) != NULL)
 				{
-					printf("Failed to move the car!??!! WTFH? Reexecuting the line to tracing");
-					EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft));
+					printf("Failed to move the car!??!! WTFH? Reexecuting the line to tracing\n");
+					if(!EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft)))
+						currentCar->context = backupCar.context;
 				}
 #endif
 			}
@@ -362,11 +381,24 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 			{
 				if(EDIIsExternalSlotAvailable(workingSection, goingIn, posInLine, flag))
 				{
-					EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR(workingSection, goingIn, posInLine, flag));
-					oldPosInLine = posInLine;
-					
-					currentCar->context.onLeftRoad = flag;
-					currentCar->context.index = posInLine & 0xff;
+					if(EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR(workingSection, goingIn, posInLine, flag)))
+					{
+#ifdef DEBUG_BUILD
+						printf("	Moved to %d %u %d %p %p\n", goingIn, posInLine, flag, GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), GET_CAR(workingSection, goingIn, posInLine, flag));
+#endif
+
+						currentCar->context.onLeftRoad = flag;
+						currentCar->context.index = posInLine & 0xffff;
+						oldPosInLine = posInLine;
+						isLeft = flag;
+					}
+					else
+					{
+#ifdef DEBUG_BUILD
+						printf("	Failed at moving to %d %u %d %p %p?!\n", goingIn, posInLine, flag, GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), GET_CAR(workingSection, goingIn, posInLine, flag));
+#endif
+					}
+
 					break;
 				}
 			}

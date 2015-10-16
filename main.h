@@ -228,4 +228,4 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 bool EDIIsExternalSlotAvailable(EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
 bool EDIIsSlotReservedForExternalRing(uint index);
 bool EDICarShouldMove(CAR * car);
-void EDITransitionCars(CAR ** car1, CAR ** car2);
+bool EDITransitionCars(CAR ** car1, CAR ** car2);
