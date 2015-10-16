@@ -66,7 +66,7 @@ void drawGrid(CONTEXT context)
 	//First oblique portion
 	printSpace(--offset);
 	printOblique45Road(context);
-	printChar("¯", internalSpace);
+	printChar("¯", --internalSpace);
 	printOblique135Road(context);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
@@ -83,9 +83,9 @@ void drawGrid(CONTEXT context)
 	}
 	
 	printChar("_", --offset);
-	printf("/ %c ┃ %c ┃", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf("/  %c | %c |", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("┃ %c | %c \\", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf("| %c | %c  \\", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar("_", offset);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
@@ -94,9 +94,9 @@ void drawGrid(CONTEXT context)
 	for(byte i = 0; i < 2; ++i)
 	{
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
-		printf(" ┃ %c ┃", getCarReadableGlyph(context));
+		printf(" | %c |", getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf("┃ %c | ", getCarReadableGlyph(context));
+		printf("| %c | ", getCarReadableGlyph(context));
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
 		contextJumpNewLine(context);
 		putc('\n', stdout);
@@ -104,9 +104,9 @@ void drawGrid(CONTEXT context)
 	
 	//Separator
 	printChar("-  ", offset / 3 + 1);
-	printf("%c ┃ %c ┃", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf("%c | %c |", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("┃ %c | %c ", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf("| %c | %c ", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar(" - ", offset / 3 + 1);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
@@ -115,9 +115,9 @@ void drawGrid(CONTEXT context)
 	for(byte i = 0; i < 2; ++i)
 	{
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
-		printf(" ┃ %c ┃", getCarReadableGlyph(context));
+		printf(" | %c |", getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf("┃ %c | ", getCarReadableGlyph(context));
+		printf("| %c | ", getCarReadableGlyph(context));
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
 		contextJumpNewLine(context);
 		putc('\n', stdout);
@@ -125,9 +125,9 @@ void drawGrid(CONTEXT context)
 
 	//Starting to close the area
 	printChar("¯", offset);
-	printf("\\ %c ┃ %c ┃", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf("\\  %c | %c |", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("┃ %c | %c /", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf("| %c | %c  /", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar("¯", offset);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
@@ -143,10 +143,10 @@ void drawGrid(CONTEXT context)
 		putc('\n', stdout);
 	}
 	
-	//First oblique portion
+	//Last oblique portion
 	printSpace(++offset);
 	printOblique135Road(context);
-	printChar("_", internalSpace);
+	printChar("_", internalSpace++);
 	printOblique45Road(context);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
