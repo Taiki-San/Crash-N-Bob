@@ -144,10 +144,10 @@ typedef struct thisShouldBeAnObjectOnSoManyLevels
 	
 	struct
 	{
-		byte currentLine;
-		byte currentColumn;
+		uint currentLine;
+		uint currentColumn;
 		
-		byte currentIndex;
+		uint currentIndex;
 		
 		byte section;
 		

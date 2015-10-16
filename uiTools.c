@@ -127,7 +127,7 @@ int sortCars(const void * _a, const void * _b)
 				//Depending of the destination, we could be going to the border of the display
 				cachedOnLeft = a->direction == a->context.section;
 				if(cachedOnLeft != (b->direction == a->context.section))
-					return !(cachedOnLeft ^ priorityLeft) ? -1 : 1;
+					return (cachedOnLeft ^ priorityLeft) ? -1 : 1;
 				
 				//Same stage
 				cachedOnLeft = a->context.onLeftRoad;
@@ -180,7 +180,7 @@ int sortCars(const void * _a, const void * _b)
 	}
 	
 	//Not in the same section but possibly on the same line
-	if(a->context.section == SECTION_NODE ^ b->context.section == SECTION_NODE)
+	if(a->context.section == SECTION_NODE || b->context.section == SECTION_NODE)
 	{
 		if((b->context.section == SECTION_WEST || b->context.section == SECTION_EAST) ^ (a->context.section == SECTION_WEST || a->context.section == SECTION_EAST))
 		{
@@ -236,6 +236,18 @@ int sortCars(const void * _a, const void * _b)
 			return b->context.section == SECTION_SOUTH ? -1 : 1;
 		else
 			return a->context.section == SECTION_SOUTH ? 1 : -1;
+	}
+	
+	else if((a->context.section == SECTION_EAST || a->context.section == SECTION_WEST) && (b->context.section == SECTION_EAST || b->context.section == SECTION_WEST))
+	{
+		//Okay, in this case, we have one car in SECTION_EAST, and one in SECTION_WEST
+		
+		//We determine a score depending of the line
+		uint scoreA = getScore(*a), scoreB = getScore(*b);
+		if(scoreA != scoreB)
+			return scoreA > scoreB ? -1 : 1;
+		
+		//And on the same line, the standard computation is enough to choose
 	}
 	
 	return a->context.section - b->context.section;
