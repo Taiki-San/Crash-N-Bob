@@ -101,13 +101,13 @@ CAR contextGetNextCarForRendering(CONTEXT context)
 				break;
 			
 			//We have a slot only used by the node in the middle
-			byte lineOffset = context->rendering.currentLine - (NB_SLOTS_BORDER + AREA_NODE_BEFORE_MERGE);
+			uint lineOffset = context->rendering.currentLine - (NB_SLOTS_BORDER + AREA_NODE_BEFORE_MERGE);
 			
 			if(lineOffset != 2)
 			{
 				//We hide the empty slot in the middle
 				//We do that because otherwise, the indexes of the cars on the external road and in the node would appear out of sync
-				byte score = getScore(nextCar), column = context->rendering.currentColumn;
+				uint score = getScore(nextCar), column = context->rendering.currentColumn;
 				if(score >= 2)
 					++score;
 				

@@ -27,7 +27,7 @@ void updateNodeData(CAR * car)
 	if(car->context.section != SECTION_NODE)
 		return;
 	
-	byte index = car->context.index;
+	uint16_t index = car->context.index;
 	byte externalOffsets[4] = EXTERNAL_SLOTS;	//Slots only available in the external ring
 	
 	//Magic table to convert an index into external circle coordonate

@@ -114,7 +114,7 @@ int sortCars(const void * _a, const void * _b)
 			{
 				//If not at the same point, the closest of the border of the display win
 				if(a->context.index != b->context.index)
-					return a->context.index - b->context.index;
+					return (int) a->context.index - (int) b->context.index;
 				
 				priorityLeft = true;
 			}

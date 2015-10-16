@@ -106,7 +106,7 @@ typedef struct
 	
 	struct {
 		
-		byte index;
+		uint16_t index;
 		
 		byte section;
 		
@@ -216,11 +216,11 @@ void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar);
 void EDIProcessContext(CONTEXT context);
 
 bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft);
-bool EDIIsCarInQuarterBeforeExit(byte index, byte direction);
+bool EDIIsCarInQuarterBeforeExit(uint16_t index, byte direction);
 bool EDIIsNodeSlotAvailableFullCheck(EDI_NODE currentNode, uint posInLine, bool isLeft);
 bool EDIIsNodeSlotAvailable(EDI_NODE currentNode, uint posInLine, bool isLeft);
-bool EDIIsCarInFrontOfExit(byte index, byte direction);
-bool EDIIsCarOnLastStepExit(byte index, byte direction);
+bool EDIIsCarInFrontOfExit(uint16_t index, byte direction);
+bool EDIIsCarOnLastStepExit(uint16_t index, byte direction);
 
 void EDIProcessCarLeavingOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
 void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft);
