@@ -76,6 +76,8 @@ void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar)
 				GET_CAR_NODE(context->EDI.node, oldCar->context.index, oldCar->context.onLeftRoad) = NULL;
 			else
 				GET_CAR((&context->EDI.externalRoads[oldCar->context.section]), false, oldCar->context.index, oldCar->context.onLeftRoad) = NULL;
+			
+			crushCar(oldCar);
 			break;
 		}
 	}
