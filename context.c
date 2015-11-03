@@ -12,8 +12,6 @@ CONTEXT createContext()
 {
 	CONTEXT context = calloc(1, sizeof(CONTEXT_STRUCT));
 	
-	EDIRegisterCarInContext(context, createRandomCar());
-	
 	return context;
 }
 

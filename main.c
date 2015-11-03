@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	while(ctx->nbCars > 0)
+	do
 	{
 		if(ctx->nbCars < 9 && getRandom() % 4 == 0)
 		{
