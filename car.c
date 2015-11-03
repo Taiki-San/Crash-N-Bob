@@ -10,12 +10,12 @@
 
 uint carCount = 0;
 
-CAR * createRandomCar()
+CAR * createRandomCar(bool inDangerMode)
 {
 	CAR * output = malloc(sizeof(CAR));
 	
 	output->direction = carGetRandomDirection();
-	output->status = (getRandom() & 0x7f) == 0 ? STATUS_DANGER : STATUS_OK;
+	output->status = (!inDangerMode || getRandom() & 0x7f) == 0 ? STATUS_DANGER : STATUS_OK;
 	output->speed = (getRandom() & 0x3) == 0 ? SPEED_FAST : SPEED_STANDARD;
 	output->ID = ++carCount;
 	output->isInitialized = true;

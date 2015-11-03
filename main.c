@@ -11,6 +11,7 @@
 int main(int argc, const char * argv[])
 {
 	CONTEXT ctx = createContext();
+	bool dangerMode = getRandom() & 0x1;
 	
 	if(ctx == NULL)
 	{
@@ -22,7 +23,7 @@ int main(int argc, const char * argv[])
 	{
 		if(ctx->nbCars < 9 && getRandom() % 4 == 0)
 		{
-			EDIRegisterCarInContext(ctx, createRandomCar());
+			EDIRegisterCarInContext(ctx, createRandomCar(dangerMode));
 			finishedUpdateContext(ctx);
 		}
 		
@@ -44,7 +45,7 @@ int main(int argc, const char * argv[])
 		EDIProcessContext(ctx);
 
 		usleep(100000);
-	}
+	} while(ctx->nbCars > 0);
 	
 	destroyContext(ctx);
 	
