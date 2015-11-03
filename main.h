@@ -14,7 +14,7 @@
 #include <limits.h>
 #include <unistd.h>
 
-#define DEBUG_BUILD
+//#define DEBUG_BUILD
 
 //Some custom types
 
@@ -182,7 +182,7 @@ void ** removeItemAtIndexFromArray(void ** array, uint length, uint index);
 uint getRandom(void);
 
 //Car utils
-CAR * createRandomCar(void);
+CAR * createRandomCar(bool inDangerMode);
 byte carGetRandomDirection(void);
 byte carGetRandomSectionDifferentOf(byte exception);
 void crushCar(CAR * car);

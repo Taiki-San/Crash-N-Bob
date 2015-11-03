@@ -310,9 +310,11 @@ void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * working
 
 void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft)
 {
+#ifdef DEBUG_BUILD
 	const void * a = workingSection;
 	const bool b = goingIn, d = isLeft;
 	const uint c = posInLine;
+#endif
 
 	CAR * currentCar = GET_CAR(workingSection, goingIn, posInLine, isLeft);
 	if(!EDICarShouldMove(currentCar))
