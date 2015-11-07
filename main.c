@@ -10,8 +10,14 @@
 
 int main(int argc, const char * argv[])
 {
+	byte difficulty = getDifficulty();
+	if(difficulty == DIFFICULTY_ERROR)
+		return -1;
+	
 	CONTEXT ctx = createContext();
-	bool dangerMode = getRandom() & 0x1;
+	
+	ctx->isFastMode = difficulty & 0x1;
+	ctx->isDangerMode = (difficulty & 0x2) != 0;
 	
 	if(ctx == NULL)
 	{
@@ -21,9 +27,9 @@ int main(int argc, const char * argv[])
 
 	do
 	{
-		if(ctx->nbCars < 9 && getRandom() % 4 == 0)
+		if(shouldInjectCar(ctx))
 		{
-			EDIRegisterCarInContext(ctx, createRandomCar(dangerMode));
+			EDIRegisterCarInContext(ctx, createRandomCar(ctx->isDangerMode));
 			finishedUpdateContext(ctx);
 		}
 		

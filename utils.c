@@ -72,6 +72,21 @@ void ** removeItemAtIndexFromArray(void ** array, uint length, uint index)
 	return tmp == NULL ? array : tmp;
 }
 
+bool shouldInjectCar(CONTEXT ctx)
+{
+	if(ctx->isFastMode)
+		return ctx->nbCars < NB_CAR_MAX_FAST;
+	
+	if(ctx->nbCars > NB_CAR_MAX_SLOW)
+		return false;
+	else if(ctx->nbCars < 5)
+		return true;
+
+	ctx->slowBit = !ctx->slowBit;
+
+	return ctx->slowBit && (getRandom() & 0x1);
+}
+
 #ifndef __APPLE__
 
 #include <time.h>

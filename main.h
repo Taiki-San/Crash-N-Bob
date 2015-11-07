@@ -25,6 +25,17 @@ typedef unsigned int uint;
 
 enum
 {
+	DIFFICULTY_NORMAL = 0,
+	DIFFICULTY_FAST = 1,
+	DIFFICULTY_DANGER = 3,
+	DIFFICULTY_ERROR = 255,
+	
+	NB_CAR_MAX_SLOW = 20,
+	NB_CAR_MAX_FAST = 50
+};
+
+enum
+{
 	DIR_NORTH,
 	DIR_WEST,
 	DIR_EAST,
@@ -183,6 +194,7 @@ void printCar(const CAR * car);
 void updateNodeData(CAR * car);
 byte getScore(CAR car);
 void ** removeItemAtIndexFromArray(void ** array, uint length, uint index);
+bool shouldInjectCar(CONTEXT ctx);
 uint getRandom(void);
 
 //Car utils
@@ -209,6 +221,9 @@ void printWideVerticalRoad(CONTEXT context, char * separator);
 void printHorizontalRoad(CONTEXT context, uint width, bool wider);
 void printOblique45Road(CONTEXT context);
 void printOblique135Road(CONTEXT context);
+
+//CLI
+byte getDifficulty(void);
 
 //EDI utils
 bool isValidSection(byte section);
