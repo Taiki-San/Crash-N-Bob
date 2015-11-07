@@ -70,9 +70,9 @@ void printChar(char * string, uint nbChar)
 		fputs(string, stdout);
 }
 
-void printWideVerticalRoad(CONTEXT context)
+void printWideVerticalRoad(CONTEXT context, char * separator)
 {
-	printf("| %c %c | %c %c |", getCarReadableGlyph(context), getCarReadableGlyph(context), getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf(ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET" %c %c "ANSI_COLOR_CYAN"%s"ANSI_COLOR_RESET" %c %c "ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context), separator, getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
 void printHorizontalRoad(CONTEXT context, uint width, bool wider)
@@ -88,12 +88,12 @@ void printHorizontalRoad(CONTEXT context, uint width, bool wider)
 
 void printOblique45Road(CONTEXT context)
 {
-	printf("/ %c / %c /", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf(ANSI_COLOR_BLUE"/"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN"/"ANSI_COLOR_RESET" %c "ANSI_COLOR_BLUE"/"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
 void printOblique135Road(CONTEXT context)
 {
-	printf("\\ %c \\ %c \\", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf(ANSI_COLOR_BLUE"\\"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN"\\"ANSI_COLOR_RESET" %c "ANSI_COLOR_BLUE"\\"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
 //Sorting work

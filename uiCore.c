@@ -28,7 +28,7 @@ void drawGrid(CONTEXT context)
 	for(byte i = 0; i < NB_SLOTS_BORDER - 1; ++i)
 	{
 		printSpace(offset);
-		printWideVerticalRoad(context);
+		printWideVerticalRoad(context, "\u2551");
 		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
@@ -37,36 +37,36 @@ void drawGrid(CONTEXT context)
 	
 	//Add the line at the top of
 	printSpace(offset);
-	fputs("_____", stdout);
-	printWideVerticalRoad(context);
+	fputs(ANSI_COLOR_BLUE "_____" ANSI_COLOR_RESET, stdout);
+	printWideVerticalRoad(context, "\u2569");
 	contextJumpNewLine(context);
-	puts("_____");
+	puts(ANSI_COLOR_BLUE "_____" ANSI_COLOR_RESET);
 	
 	//Top horizontal line
 	printSpace(--offset);
-	fputs("/ ", stdout);
+	fputs(ANSI_COLOR_BLUE"/ "ANSI_COLOR_RESET, stdout);
 	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts(" \\");
+	puts(ANSI_COLOR_BLUE" \\"ANSI_COLOR_RESET);
 	
 	//Empty space between the two top lines
 	printSpace(--offset);
-	printf("/ %c", getCarReadableGlyph(context));
-	printChar(" - ", 7);
-	printf("%c \\\n", getCarReadableGlyph(context));
+	printf(ANSI_COLOR_BLUE"/"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN, getCarReadableGlyph(context));
+	printChar("\u2501\u2501\u2501", 6);
+	printf(ANSI_COLOR_RESET"  %c "ANSI_COLOR_BLUE"\\"ANSI_COLOR_RESET"\n", getCarReadableGlyph(context));
 	contextJumpNewLine(context);
 	
 	//Internal line
 	printSpace(--offset);
-	fputs("/   ", stdout);
+	fputs(ANSI_COLOR_BLUE"/"ANSI_COLOR_RESET"   ", stdout);
 	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts("   \\");
+	puts("   "ANSI_COLOR_BLUE"\\"ANSI_COLOR_RESET);
 	
 	//First oblique portion
 	printSpace(--offset);
 	printOblique45Road(context);
-	printChar("¯", --internalSpace);
+	printChar(ANSI_COLOR_BLUE"¯"ANSI_COLOR_RESET, --internalSpace);
 	printOblique135Road(context);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
@@ -82,11 +82,11 @@ void drawGrid(CONTEXT context)
 		putc('\n', stdout);
 	}
 	
-	printChar("_", --offset);
-	printf("/  %c | %c |", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(ANSI_COLOR_BLUE"_"ANSI_COLOR_RESET, --offset);
+	printf(ANSI_COLOR_BLUE"/"ANSI_COLOR_RESET"  %c "ANSI_COLOR_CYAN"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("| %c | %c  \\", getCarReadableGlyph(context), getCarReadableGlyph(context));
-	printChar("_", offset);
+	printf(ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN"\u2502"ANSI_COLOR_RESET" %c  "ANSI_COLOR_BLUE"\\"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(ANSI_COLOR_BLUE"_"ANSI_COLOR_RESET, offset);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
 
@@ -94,41 +94,42 @@ void drawGrid(CONTEXT context)
 	for(byte i = 0; i < 2; ++i)
 	{
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
-		printf(" | %c |", getCarReadableGlyph(context));
+		printf(ANSI_COLOR_CYAN" \u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET, getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf("| %c | ", getCarReadableGlyph(context));
+		printf(ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN"\u2502 "ANSI_COLOR_RESET, getCarReadableGlyph(context));
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
 		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 	
 	//Separator
-	printChar("-  ", offset / 3 + 1);
-	printf("%c | %c |", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	fputs(ANSI_COLOR_CYAN, stdout);
+	printChar("\u2550\u2550\u2550", offset / 3);
+	printf("\u2563  "ANSI_COLOR_RESET"%c "ANSI_COLOR_CYAN"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("| %c | %c ", getCarReadableGlyph(context), getCarReadableGlyph(context));
-	printChar(" - ", offset / 3 + 1);
+	printf(ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN"\u2502"ANSI_COLOR_RESET" %c  "ANSI_COLOR_CYAN"\u2560\u2550", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar("\u2550\u2550\u2550", offset / 3);
 	contextJumpNewLine(context);
-	putc('\n', stdout);
+	puts(ANSI_COLOR_RESET);
 	
 	//Last two lines
 	for(byte i = 0; i < 2; ++i)
 	{
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
-		printf(" | %c |", getCarReadableGlyph(context));
+		printf(ANSI_COLOR_CYAN" \u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET, getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf("| %c | ", getCarReadableGlyph(context));
+		printf(ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN"\u2502 "ANSI_COLOR_RESET, getCarReadableGlyph(context));
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
 		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 
 	//Starting to close the area
-	printChar("¯", offset);
-	printf("\\  %c | %c |", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(ANSI_COLOR_BLUE"¯"ANSI_COLOR_RESET, offset);
+	printf(ANSI_COLOR_BLUE"\\"ANSI_COLOR_RESET"  %c "ANSI_COLOR_CYAN"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf("| %c | %c  /", getCarReadableGlyph(context), getCarReadableGlyph(context));
-	printChar("¯", offset);
+	printf(ANSI_COLOR_BLUE"\u2502"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN"\u2502"ANSI_COLOR_RESET" %c  "ANSI_COLOR_BLUE"/"ANSI_COLOR_RESET, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(ANSI_COLOR_BLUE"¯"ANSI_COLOR_RESET, offset);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
 	
@@ -146,45 +147,45 @@ void drawGrid(CONTEXT context)
 	//Last oblique portion
 	printSpace(++offset);
 	printOblique135Road(context);
-	printChar("_", internalSpace++);
+	printChar(ANSI_COLOR_BLUE "_" ANSI_COLOR_RESET, internalSpace++);	//_
 	printOblique45Road(context);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
 
 	//Internal line
 	printSpace(++offset);
-	fputs("\\   ", stdout);
+	fputs(ANSI_COLOR_BLUE"\\   "ANSI_COLOR_RESET, stdout);
 	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts("   /");
+	puts(ANSI_COLOR_BLUE"   /"ANSI_COLOR_RESET);
 	
 	//Empty space between the two top lines
 	printSpace(++offset);
-	printf("\\ %c", getCarReadableGlyph(context));
-	printChar(" - ", 7);
-	printf("%c /\n", getCarReadableGlyph(context));
+	printf(ANSI_COLOR_BLUE"\\"ANSI_COLOR_RESET" %c "ANSI_COLOR_CYAN, getCarReadableGlyph(context));
+	printChar("\u2501\u2501\u2501", 6);
+	printf(ANSI_COLOR_RESET"  %c "ANSI_COLOR_BLUE"/"ANSI_COLOR_RESET"\n", getCarReadableGlyph(context));
 	contextJumpNewLine(context);
 
 	//Top horizontal line
 	printSpace(++offset);
-	fputs("\\ ", stdout);
+	fputs(ANSI_COLOR_BLUE"\\ "ANSI_COLOR_RESET, stdout);
 	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts(" /");
+	puts(ANSI_COLOR_BLUE" /"ANSI_COLOR_RESET);
 	
 	//Add the line at the top of
 	printSpace(++offset);
-	fputs("¯¯¯¯¯", stdout);
-	printWideVerticalRoad(context);
+	fputs(ANSI_COLOR_BLUE"¯¯¯¯¯"ANSI_COLOR_RESET, stdout);
+	printWideVerticalRoad(context, "\u2566");
 	contextJumpNewLine(context);
-	puts("¯¯¯¯¯");
+	puts(ANSI_COLOR_BLUE"¯¯¯¯¯"ANSI_COLOR_RESET);
 	
 	offset += 2 * CAR_WIDTH + 1;
 
 	for(byte i = 0; i < NB_SLOTS_BORDER - 1; ++i)
 	{
 		printSpace(offset);
-		printWideVerticalRoad(context);
+		printWideVerticalRoad(context, "\u2551");
 		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}

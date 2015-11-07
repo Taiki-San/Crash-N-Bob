@@ -142,6 +142,10 @@ typedef struct thisShouldBeAnObjectOnSoManyLevels
 	CAR ** cars;
 	uint nbCars;
 	
+	bool isFastMode;
+	bool isDangerMode;
+	bool slowBit;
+	
 	struct
 	{
 		uint currentLine;
@@ -201,7 +205,7 @@ void printChar(char * string, uint nbChar);
 void printSpace(uint nbSpace);
 void flushDisplay(void);
 char getCarReadableGlyph(CONTEXT context);
-void printWideVerticalRoad(CONTEXT context);
+void printWideVerticalRoad(CONTEXT context, char * separator);
 void printHorizontalRoad(CONTEXT context, uint width, bool wider);
 void printOblique45Road(CONTEXT context);
 void printOblique135Road(CONTEXT context);
@@ -229,3 +233,14 @@ bool EDIIsExternalSlotAvailable(EDI_EXT_ROAD * workingSection, bool goingIn, uin
 bool EDIIsSlotReservedForExternalRing(uint index);
 bool EDICarShouldMove(CAR * car);
 bool EDITransitionCars(CAR ** car1, CAR ** car2);
+
+//ASCII trickeries
+#define ANSI_COLOR_BROWN   "\e[0;33m"
+#define ANSI_COLOR_BLACK   "\x1b[30;1m"
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
