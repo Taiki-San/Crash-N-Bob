@@ -10,9 +10,13 @@
 
 int main(int argc, const char * argv[])
 {
+#ifndef DEBUG_BUILD
 	byte difficulty = getDifficulty();
 	if(difficulty == DIFFICULTY_ERROR)
 		return -1;
+#else
+	byte difficulty = 1;
+#endif
 	
 	CONTEXT ctx = createContext();
 	
@@ -45,6 +49,7 @@ int main(int argc, const char * argv[])
 		{
 			puts("Not so fast! We missed a couple of cars");
 			finishedUpdateContext(ctx);
+			drawGrid(ctx);
 		}
 #endif
 

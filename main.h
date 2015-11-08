@@ -86,7 +86,7 @@ enum
 	
 	NB_SLOTS_BORDER = 10,
 	
-	NB_SLOTS_NODE = 54,
+	NB_SLOTS_NODE = 60,
 	
 	AREA_NODE_BEFORE_MERGE = 8,
 	WIDTH_NODE_MERGE = 5,
@@ -95,9 +95,10 @@ enum
 	
 };
 
-#define EXTERNAL_SLOTS	{6, 22, 33, 49}
-#define ENTRY_SLOTS		{2, 16, 43, 29}
-#define EXIT_SLOTS		{52, 12, 39, 25}
+#define NB_EXTERNAL_SLOTS 12
+#define EXTERNAL_SLOTS	{5, 6, 7, 24, 25, 26, 35, 36, 37, 54, 55, 56}
+#define ENTRY_SLOTS		{3, 18, 48, 33}
+#define EXIT_SLOTS		{58, 14, 44, 28}
 
 //Define general purpose structures
 
@@ -126,6 +127,8 @@ typedef struct
 		byte lineOfNode;
 		
 		byte indexOfLineInNode;
+		
+		uint session;
 		
 	} context;
 	
@@ -234,7 +237,7 @@ void EDIRegisterCarInContext(CONTEXT context, CAR * newCar);
 void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar);
 void EDIProcessContext(CONTEXT context);
 
-bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft);
+bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft, uint currentSession);
 bool EDIIsCarInQuarterBeforeExit(uint16_t index, byte direction);
 bool EDIIsNodeSlotAvailableFullCheck(EDI_NODE currentNode, uint posInLine, bool isLeft);
 bool EDIIsNodeSlotAvailable(EDI_NODE currentNode, uint posInLine, bool isLeft);
@@ -246,19 +249,20 @@ void EDIProcessCarEnteringOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * working
 void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
 bool EDIIsExternalSlotAvailable(EDI_EXT_ROAD * workingSection, bool goingIn, uint posInLine, bool isLeft);
 bool EDIIsSlotReservedForExternalRing(uint index);
-bool EDICarShouldMove(CAR * car);
+bool EDICarShouldMove(CAR * car, uint currentSession);
 bool EDITransitionCars(CAR ** car1, CAR ** car2);
 
 //ASCII trickeries
-#define ANSI_COLOR_RED     "\x1b[31m"
-#define ANSI_COLOR_YELLOW  "\x1b[33m"
-
+#ifdef DEBUG_BUILD
+#define ANSI_COLOR_GREEN   ""
+#define ANSI_COLOR_BLUE    ""
+#define ANSI_COLOR_CYAN    ""
+#else
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_BLUE    "\x1b[34m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
-#define ANSI_COLOR_RESET   "\x1b[0m"
+#endif
 
-#define RESET_COLOR		ANSI_COLOR_RESET
 #define COLOR_CAR		ANSI_COLOR_GREEN
 #define COLOR_SEPARATOR ANSI_COLOR_CYAN
 #define COLOR_BORDER	ANSI_COLOR_BLUE

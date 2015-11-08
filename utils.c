@@ -28,10 +28,10 @@ void updateNodeData(CAR * car)
 		return;
 	
 	uint16_t index = car->context.index;
-	byte externalOffsets[4] = EXTERNAL_SLOTS;	//Slots only available in the external ring
+	byte externalOffsets[NB_EXTERNAL_SLOTS] = EXTERNAL_SLOTS;	//Slots only available in the external ring
 	
 	//Magic table to convert an index into external circle coordonate
-	byte conversionTable[54][2] = {{0, 5}, {0, 4}, {0, 3}, {0, 2}, {0, 1}, {0, 0}, {1, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}, {13, 0}, {14, 0}, {16, 0}, {17, 0}, {19, 0}, {20, 0}, {20, 1}, {20, 2}, {20, 3}, {20, 4}, {20, 5}, {20, 6}, {20, 7}, {20, 8}, {20, 9}, {20, 10}, {19, 1}, {17, 3}, {16, 3}, {15, 3}, {14, 3}, {13, 3}, {12, 3}, {11, 3}, {10, 3}, {9, 3}, {8, 3}, {7, 3}, {6, 3}, {5, 3}, {4, 3}, {3, 3}, {1, 1}, {0, 9}, {0, 8}, {0, 7}, {0, 6}};
+	byte conversionTable[60][2] = {{0, 6}, {0, 5}, {0, 4}, {0, 3}, {0, 2}, {0, 1}, {0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}, {8, 0}, {9, 0}, {10, 0}, {11, 0}, {12, 0}, {13, 0}, {14, 0}, {15, 0}, {16, 0}, {17, 0}, {18, 0}, {19, 0}, {20, 0}, {20, 1}, {20, 2}, {20, 3}, {20, 4}, {20, 5}, {20, 6}, {20, 7}, {20, 8}, {20, 9}, {20, 10}, {19, 1}, {18, 10}, {17, 3}, {16, 3}, {15, 3}, {14, 3}, {13, 3}, {12, 3}, {11, 3}, {10, 3}, {9, 3}, {8, 3}, {7, 3}, {6, 3}, {5, 3}, {4, 3}, {3, 3}, {2, 10}, {1, 1}, {0, 10}, {0, 9}, {0, 8}, {0, 7}};
 	
 	car->context.lineOfNode = conversionTable[index][0];
 	car->context.indexOfLineInNode = conversionTable[index][1];
@@ -39,13 +39,13 @@ void updateNodeData(CAR * car)
 	//Internal circle :(
 	if(car->context.onLeftRoad)
 	{
-		if(index < externalOffsets[0] || index > externalOffsets[3])
+		if(index < externalOffsets[0] || index > externalOffsets[11])
 			car->context.lineOfNode += 2;
 		
-		else if(index < externalOffsets[1])
+		else if(index < externalOffsets[3])
 			++car->context.indexOfLineInNode;
 		
-		else if(index < externalOffsets[2])
+		else if(index < externalOffsets[7])
 			car->context.lineOfNode -= 2;
 		
 		else
@@ -74,6 +74,9 @@ void ** removeItemAtIndexFromArray(void ** array, uint length, uint index)
 
 bool shouldInjectCar(CONTEXT ctx)
 {
+//#ifdef DEBUG_BUILD
+//	return ctx->nbCars == 0;
+//#else
 	if(ctx->isFastMode)
 		return ctx->nbCars < NB_CAR_MAX_FAST;
 	
@@ -85,6 +88,7 @@ bool shouldInjectCar(CONTEXT ctx)
 	ctx->slowBit = !ctx->slowBit;
 
 	return ctx->slowBit && (getRandom() & 0x1);
+//#endif
 }
 
 #ifndef __APPLE__

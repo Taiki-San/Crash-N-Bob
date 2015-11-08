@@ -37,36 +37,36 @@ void drawGrid(CONTEXT context)
 	
 	//Add the line at the top of
 	printSpace(offset);
-	fputs(COLOR_BORDER "_____" RESET_COLOR, stdout);
+	fputs(COLOR_BORDER "_____" , stdout);
 	printWideVerticalRoad(context, "\u2569");
 	contextJumpNewLine(context);
-	puts(COLOR_BORDER "_____" RESET_COLOR);
+	puts(COLOR_BORDER "_____" );
 	
 	//Top horizontal line
 	printSpace(--offset);
-	fputs(COLOR_BORDER"/ "RESET_COLOR, stdout);
+	fputs(COLOR_BORDER"/ ", stdout);
 	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts(COLOR_BORDER" \\"RESET_COLOR);
+	puts(COLOR_BORDER" \\");
 	
 	//Empty space between the two top lines
 	printSpace(--offset);
 	printf(COLOR_BORDER"/"COLOR_CAR" %c "COLOR_SEPARATOR, getCarReadableGlyph(context));
 	printChar("\u2501\u2501\u2501", 6);
-	printf(COLOR_CAR"  %c "COLOR_BORDER"\\"RESET_COLOR"\n", getCarReadableGlyph(context));
+	printf(COLOR_CAR"  %c "COLOR_BORDER"\\""\n", getCarReadableGlyph(context));
 	contextJumpNewLine(context);
 	
 	//Internal line
 	printSpace(--offset);
-	fputs(COLOR_BORDER"/"RESET_COLOR"   ", stdout);
-	printHorizontalRoad(context, 11, false);
+	printf(COLOR_BORDER"/ "COLOR_CAR"%c "COLOR_SEPARATOR"/ ", getCarReadableGlyph(context));
+	printHorizontalRoad(context, 9, false);
+	printf(COLOR_SEPARATOR" \\"COLOR_CAR" %c "COLOR_BORDER"\\\n", getCarReadableGlyph(context));
 	contextJumpNewLine(context);
-	puts("   "COLOR_BORDER"\\"RESET_COLOR);
 	
 	//First oblique portion
 	printSpace(--offset);
 	printOblique45Road(context);
-	printChar(COLOR_BORDER"¯"RESET_COLOR, --internalSpace);
+	printChar(COLOR_BORDER"¯", --internalSpace);
 	printOblique135Road(context);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
@@ -82,21 +82,21 @@ void drawGrid(CONTEXT context)
 		putc('\n', stdout);
 	}
 	
-	printChar(COLOR_BORDER"_"RESET_COLOR, --offset);
-	printf(COLOR_BORDER"/"COLOR_CAR"  %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(COLOR_BORDER"_", --offset);
+	printf(COLOR_BORDER"/"COLOR_CAR"  %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c  "COLOR_BORDER"\\"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context));
-	printChar(COLOR_BORDER"_"RESET_COLOR, offset);
+	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c  "COLOR_BORDER"\\", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(COLOR_BORDER"_", offset);
 	contextJumpNewLine(context);
-	putc('\n', stdout);
+	fputs("\n"COLOR_SEPARATOR, stdout);
 
 	//Top two lines
 	for(byte i = 0; i < 2; ++i)
 	{
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
-		printf(COLOR_SEPARATOR" \u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502"RESET_COLOR, getCarReadableGlyph(context));
+		printf(COLOR_SEPARATOR" \u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502", getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502 "RESET_COLOR, getCarReadableGlyph(context));
+		printf("\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502 ", getCarReadableGlyph(context));
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
 		contextJumpNewLine(context);
 		putc('\n', stdout);
@@ -105,31 +105,31 @@ void drawGrid(CONTEXT context)
 	//Separator
 	fputs(COLOR_SEPARATOR, stdout);
 	printChar("\u2550\u2550\u2550", offset / 3);
-	printf("\u2563  "COLOR_CAR"%c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf("\u2563  "COLOR_CAR"%c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
 	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c  "COLOR_SEPARATOR"\u2560\u2550", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar("\u2550\u2550\u2550", offset / 3);
 	contextJumpNewLine(context);
-	puts(RESET_COLOR);
+	putc('\n', stdout);
 	
 	//Last two lines
 	for(byte i = 0; i < 2; ++i)
 	{
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
-		printf(COLOR_SEPARATOR" \u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502"RESET_COLOR, getCarReadableGlyph(context));
+		printf(COLOR_SEPARATOR" \u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502", getCarReadableGlyph(context));
 		printSpace(internalSpace);
-		printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502 "RESET_COLOR, getCarReadableGlyph(context));
+		printf("\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502 ", getCarReadableGlyph(context));
 		printHorizontalRoad(context, NB_SLOTS_BORDER + 1, true);
 		contextJumpNewLine(context);
 		putc('\n', stdout);
 	}
 
 	//Starting to close the area
-	printChar(COLOR_BORDER"¯"RESET_COLOR, offset);
-	printf(COLOR_BORDER"\\"COLOR_CAR"  %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(COLOR_BORDER"¯", offset);
+	printf(COLOR_BORDER"\\"COLOR_CAR"  %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c  "COLOR_BORDER"/"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context));
-	printChar(COLOR_BORDER"¯"RESET_COLOR, offset);
+	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c  "COLOR_BORDER"/", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printChar(COLOR_BORDER"¯", offset);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
 	
@@ -147,38 +147,38 @@ void drawGrid(CONTEXT context)
 	//Last oblique portion
 	printSpace(++offset);
 	printOblique135Road(context);
-	printChar(COLOR_BORDER "_" RESET_COLOR, internalSpace++);	//_
+	printChar(COLOR_BORDER "_" , internalSpace++);
 	printOblique45Road(context);
 	contextJumpNewLine(context);
 	putc('\n', stdout);
 
 	//Internal line
 	printSpace(++offset);
-	fputs(COLOR_BORDER"\\   "RESET_COLOR, stdout);
-	printHorizontalRoad(context, 11, false);
+	printf(COLOR_BORDER"\\ "COLOR_CAR"%c "COLOR_SEPARATOR"\\ ", getCarReadableGlyph(context));
+	printHorizontalRoad(context, 9, false);
+	printf(COLOR_SEPARATOR" /"COLOR_CAR" %c "COLOR_BORDER"/\n", getCarReadableGlyph(context));
 	contextJumpNewLine(context);
-	puts(COLOR_BORDER"   /"RESET_COLOR);
 	
 	//Empty space between the two top lines
 	printSpace(++offset);
 	printf(COLOR_BORDER"\\"COLOR_CAR" %c "COLOR_SEPARATOR, getCarReadableGlyph(context));
 	printChar("\u2501\u2501\u2501", 6);
-	printf(COLOR_CAR"  %c "COLOR_BORDER"/"RESET_COLOR"\n", getCarReadableGlyph(context));
+	printf(COLOR_CAR"  %c "COLOR_BORDER"/""\n", getCarReadableGlyph(context));
 	contextJumpNewLine(context);
 
 	//Top horizontal line
 	printSpace(++offset);
-	fputs(COLOR_BORDER"\\ "RESET_COLOR, stdout);
+	fputs(COLOR_BORDER"\\ ", stdout);
 	printHorizontalRoad(context, 11, false);
 	contextJumpNewLine(context);
-	puts(COLOR_BORDER" /"RESET_COLOR);
+	puts(COLOR_BORDER" /");
 	
 	//Add the line at the top of
 	printSpace(++offset);
-	fputs(COLOR_BORDER"¯¯¯¯¯"RESET_COLOR, stdout);
+	fputs(COLOR_BORDER"¯¯¯¯¯", stdout);
 	printWideVerticalRoad(context, "\u2566");
 	contextJumpNewLine(context);
-	puts(COLOR_BORDER"¯¯¯¯¯"RESET_COLOR);
+	puts(COLOR_BORDER"¯¯¯¯¯");
 	
 	offset += 2 * CAR_WIDTH + 1;
 

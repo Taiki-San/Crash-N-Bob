@@ -72,7 +72,7 @@ void printChar(char * string, uint nbChar)
 
 void printWideVerticalRoad(CONTEXT context, char * separator)
 {
-	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c %c "COLOR_SEPARATOR"%s"COLOR_CAR" %c %c "COLOR_BORDER"\u2502"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context), separator, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c %c "COLOR_SEPARATOR"%s"COLOR_CAR" %c %c "COLOR_BORDER"\u2502", getCarReadableGlyph(context), getCarReadableGlyph(context), separator, getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
 void printHorizontalRoad(CONTEXT context, uint width, bool wider)
@@ -85,18 +85,16 @@ void printHorizontalRoad(CONTEXT context, uint width, bool wider)
 	
 	for(uint i = 1; i < width; ++i)
 		printf(wider ? "  %c" : " %c", getCarReadableGlyph(context));
-	
-	fputs(RESET_COLOR, stdout);
 }
 
 void printOblique45Road(CONTEXT context)
 {
-	printf(COLOR_BORDER"/"COLOR_CAR" %c "COLOR_SEPARATOR"/"COLOR_CAR" %c "COLOR_BORDER"/"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf(COLOR_BORDER"/"COLOR_CAR" %c "COLOR_SEPARATOR"/"COLOR_CAR" %c "COLOR_BORDER"/", getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
 void printOblique135Road(CONTEXT context)
 {
-	printf(COLOR_BORDER"\\"COLOR_CAR" %c "COLOR_SEPARATOR"\\"COLOR_CAR" %c "COLOR_BORDER"\\"RESET_COLOR, getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf(COLOR_BORDER"\\"COLOR_CAR" %c "COLOR_SEPARATOR"\\"COLOR_CAR" %c "COLOR_BORDER"\\", getCarReadableGlyph(context), getCarReadableGlyph(context));
 }
 
 //Sorting work

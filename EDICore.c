@@ -83,6 +83,8 @@ void EDIRemoveCarFromContext(CONTEXT context, CAR * oldCar)
 	}
 }
 
+static uint currentSession = 0;
+
 void EDIProcessContext(CONTEXT context)
 {
 	//We first process car leaving the system
@@ -98,10 +100,11 @@ void EDIProcessContext(CONTEXT context)
 	}
 
 	//We loop until we are sure all cars were processed
+	currentSession = (currentSession + 1) % UINT_MAX;	//Prevent using UINT_MAX
 	for(byte count = 0, carStuck = true; count < 3 && carStuck; ++count)
 	{
-		const uint forbiddenSlots[4] = EXTERNAL_SLOTS;
-		int8_t nextForbidden = 3;
+		const uint forbiddenSlots[NB_EXTERNAL_SLOTS] = EXTERNAL_SLOTS;
+		int8_t nextForbidden = NB_EXTERNAL_SLOTS - 1;
 		carStuck = false;
 		
 		for(byte circle = 0; circle < 2; ++circle)
@@ -113,12 +116,12 @@ void EDIProcessContext(CONTEXT context)
 				if(circle == 0)
 				{
 					if(nextForbidden < 0 || forbiddenSlots[nextForbidden] != pos)
-						carStuck |= EDIProcessCarInNode(context, pos, true);
+						carStuck |= EDIProcessCarInNode(context, pos, true, currentSession);
 					else
 						--nextForbidden;
 				}
 				else
-					carStuck |= EDIProcessCarInNode(context, pos, false);
+					carStuck |= EDIProcessCarInNode(context, pos, false, currentSession);
 			}
 		}
 	}
@@ -140,17 +143,22 @@ void EDIProcessContext(CONTEXT context)
 
 #pragma mark - Node processing
 
-bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft)
+bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft, uint _currentSession)
 {
 	CAR * currentCar = GET_CAR_NODE(context->EDI.node, posInLine, isLeft);
-	if(!EDICarShouldMove(currentCar))
+	if(!EDICarShouldMove(currentCar, _currentSession))
 		return false;
+	else
+		currentCar->context.session = _currentSession;
 	
 	//Okay, start processing
 	const uint oldPosInLine = posInLine++;
 	
-	if(EDIIsSlotReservedForExternalRing(posInLine + 1))
-		++posInLine;
+	if(currentCar->context.onLeftRoad)
+	{
+		while(EDIIsSlotReservedForExternalRing(posInLine))
+			++posInLine;
+	}
 	
 	posInLine %= NB_SLOTS_NODE;
 	
@@ -276,7 +284,7 @@ bool EDIIsNodeSlotAvailableFullCheck(EDI_NODE currentNode, uint posInLine, bool 
 {
 	if(isLeft)
 	{
-		for(byte forbiddenSpots[4] = EXTERNAL_SLOTS, i = 0; i < 4; ++i)
+		for(byte forbiddenSpots[NB_EXTERNAL_SLOTS] = EXTERNAL_SLOTS, i = 0; i < sizeof(forbiddenSpots); ++i)
 		{
 			if(posInLine < forbiddenSpots[i])
 				break;
@@ -317,7 +325,7 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 #endif
 
 	CAR * currentCar = GET_CAR(workingSection, goingIn, posInLine, isLeft);
-	if(!EDICarShouldMove(currentCar))
+	if(!EDICarShouldMove(currentCar, UINT_MAX))
 		return;
 	
 #ifdef DEBUG_BUILD

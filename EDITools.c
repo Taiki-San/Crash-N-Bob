@@ -26,18 +26,18 @@ bool EDIHaveFreeSlotToEnterSection(CONTEXT context, byte section)
 
 bool EDIIsSlotReservedForExternalRing(uint index)
 {
-	for(byte i = 0; i < 4; ++i)
+	for(byte i = 0; i < NB_EXTERNAL_SLOTS; ++i)
 	{
-		if(((byte [4]) EXTERNAL_SLOTS)[i] == index)
+		if(((byte [NB_EXTERNAL_SLOTS]) EXTERNAL_SLOTS)[i] == index)
 			return true;
 	}
 	
 	return false;
 }
 
-bool EDICarShouldMove(CAR * car)
+bool EDICarShouldMove(CAR * car, uint currentSession)
 {
-	if(car == NULL || !car->isInitialized)
+	if(car == NULL || !car->isInitialized || car->context.session == currentSession)
 		return false;
 	
 	if(car->status == STATUS_OK || car->status == STATUS_DANGER)
