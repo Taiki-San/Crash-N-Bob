@@ -17,8 +17,11 @@ CONTEXT createContext()
 
 void finishedUpdateContext(CONTEXT context)
 {
-	qsort(context->cars, context->nbCars, sizeof(CAR *), sortCars);
-	context->rendering.sorted = true;
+	if(!context->rendering.sorted)
+	{
+		qsort(context->cars, context->nbCars, sizeof(CAR *), sortCars);
+		context->rendering.sorted = true;
+	}
 }
 
 void destroyContext(CONTEXT context)
@@ -35,6 +38,8 @@ void contextNewPass(CONTEXT context)
 {
 	context->rendering.currentColumn = context->rendering.currentLine = context->rendering.currentIndex = 0;
 	context->rendering.section = SECTION_NORTH;
+	
+	finishedUpdateContext(context);
 }
 
 //Get car for the rendering engine
@@ -48,10 +53,6 @@ CAR contextGetNextCarForRendering(CONTEXT context)
 #endif
 		return getEmptyCar();
 	}
-	
-	//Oops, someone forgot to call finishedUpdateContext
-	if(!context->rendering.sorted)
-		finishedUpdateContext(context);
 	
 	//Okay, we need to check if the rendering engine is asking for the next car of the list
 	bool nextIsLegit = false;

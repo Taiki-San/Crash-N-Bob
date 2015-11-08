@@ -34,7 +34,6 @@ int main(int argc, const char * argv[])
 		if(shouldInjectCar(ctx))
 		{
 			EDIRegisterCarInContext(ctx, createRandomCar(ctx->isDangerMode));
-			finishedUpdateContext(ctx);
 		}
 		
 #ifdef DEBUG_BUILD

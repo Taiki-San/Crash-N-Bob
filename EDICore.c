@@ -100,8 +100,8 @@ void EDIProcessContext(CONTEXT context)
 	}
 
 	//We loop until we are sure all cars were processed
-	currentSession = (currentSession + 1) % UINT_MAX;	//Prevent using UINT_MAX
-	for(byte count = 0, carStuck = true; count < 3 && carStuck; ++count)
+	currentSession = (currentSession + 1) % UINT_MAX;	//Prevent using UINT_MAX, we use the session not to evaluate two times the same car
+	for(byte count = 0, carStuck = true; count < 2 && carStuck; ++count)
 	{
 		const uint forbiddenSlots[NB_EXTERNAL_SLOTS] = EXTERNAL_SLOTS;
 		int8_t nextForbidden = NB_EXTERNAL_SLOTS - 1;
@@ -137,8 +137,6 @@ void EDIProcessContext(CONTEXT context)
 			EDIProcessCarEnteringOnExternalRoad(context, workingSection, pos, false);
 		}
 	}
-	
-	finishedUpdateContext(context);
 }
 
 #pragma mark - Node processing
@@ -233,6 +231,8 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft, uint _cur
 		
 		if(!EDITransitionCars(&GET_CAR_NODE(context->EDI.node, oldPosInLine, isLeft), &GET_CAR(section, false, currentCar->context.index, currentCar->context.onLeftRoad)))
 			currentCar->context = backupCar.context;
+		else
+			context->rendering.sorted = false;
 	}
 	else
 	{
@@ -243,6 +243,8 @@ bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft, uint _cur
 		
 		if(!EDITransitionCars(&GET_CAR_NODE(context->EDI.node, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, wantToGoToLeft)))
 			currentCar->context = backupCar.context;
+		else
+			context->rendering.sorted = false;
 	}
 	
 #ifdef DEBUG_BUILD
@@ -368,6 +370,8 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 
 				if(!EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft)))
 					currentCar->context = backupCar.context;
+				else
+					context->rendering.sorted = false;
 				
 #ifdef DEBUG_BUILD
 				if(GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) != NULL)
@@ -406,6 +410,8 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 					}
 					else
 					{
+						context->rendering.sorted = false;
+
 #ifdef DEBUG_BUILD
 						printf("	Failed at moving to %d %u %d %p %p?!\n", goingIn, posInLine, flag, GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), GET_CAR(workingSection, goingIn, posInLine, flag));
 #endif

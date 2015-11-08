@@ -107,7 +107,7 @@ void drawGrid(CONTEXT context)
 	printChar("\u2550\u2550\u2550", offset / 3);
 	printf("\u2563  "COLOR_CAR"%c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c "COLOR_BORDER"\u2502", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printSpace(internalSpace);
-	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c  "COLOR_SEPARATOR"\u2560\u2550", getCarReadableGlyph(context), getCarReadableGlyph(context));
+	printf(COLOR_BORDER"\u2502"COLOR_CAR" %c "COLOR_SEPARATOR"\u2502"COLOR_CAR" %c  "COLOR_SEPARATOR"\u2560", getCarReadableGlyph(context), getCarReadableGlyph(context));
 	printChar("\u2550\u2550\u2550", offset / 3);
 	contextJumpNewLine(context);
 	putc('\n', stdout);

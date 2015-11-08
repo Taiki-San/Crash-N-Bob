@@ -43,7 +43,7 @@ bool EDICarShouldMove(CAR * car, uint currentSession)
 	if(car->status == STATUS_OK || car->status == STATUS_DANGER)
 		return true;
 	
-	if(car->status == STATUS_DAMAGED)
+	if(car->status == STATUS_DAMAGED || car->status == STATUS_FAILURE)
 	{
 		car->accidentDelay--;
 		if(car->accidentDelay == 0)
@@ -61,6 +61,13 @@ bool EDITransitionCars(CAR ** car1, CAR ** car2)
 	//No move
 	if(car1 == car2 || *car1 == *car2)
 		return true;
+
+	//Random faillure
+	if((getRandom() & 0xfffff) == 42)
+	{
+		(*car1)->status = STATUS_FAILURE;
+		(*car1)->accidentDelay = DEFAULT_ACCIDENT_DELAY;
+	}
 	
 	if(*car2 == NULL)
 	{
