@@ -74,9 +74,6 @@ void ** removeItemAtIndexFromArray(void ** array, uint length, uint index)
 
 bool shouldInjectCar(CONTEXT ctx)
 {
-//#ifdef DEBUG_BUILD
-//	return ctx->nbCars == 0;
-//#else
 	if(ctx->isFastMode)
 		return ctx->nbCars < NB_CAR_MAX_FAST;
 	
@@ -88,7 +85,6 @@ bool shouldInjectCar(CONTEXT ctx)
 	ctx->slowBit = !ctx->slowBit;
 
 	return ctx->slowBit && (getRandom() & 0x1);
-//#endif
 }
 
 #ifndef __APPLE__
