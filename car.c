@@ -20,7 +20,7 @@ CAR * createRandomCar(bool inDangerMode)
 	output->ID = ++carCount;
 	output->isInitialized = true;
 	
-	memset(&output->context, 0, sizeof(output->context));
+	bzero(&output->context, sizeof(output->context));
 	
 	return output;
 }

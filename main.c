@@ -6,6 +6,9 @@
 //  Copyright © 2015 Taiki. All rights reserved.
 //
 
+//Required to get usleep
+#define _BSD_SOURCE
+
 #include "main.h"
 
 int main(int argc, const char * argv[])

@@ -21,13 +21,15 @@ byte getDifficulty()
 	printf("************************************************************************\n");
 	printf("*                 ---- Bienvenue dans Crash'n Bob ----                 *\n");
 	printf("*      Le principe est simple, il s'agit de simuler un carrefour       *\n");
-	printf("*      %ls sens giratoire comportant trois modes de fonctionnement       *\n", L"à");
+	printf("*      à sens giratoire comportant trois modes de fonctionnement       *\n");
 	printf("************************************************************************\n");
 	printf("************************************************************************\n");
 	printf("************************************************************************\n");
 	printf("*                            1. Mode fluide                            *\n");
-	printf("*                            2. Mode charg%ls                            *\n", L"é");
+	printf("*                            2. Mode chargé                            *\n");
 	printf("*                  /!\\       3. Mode Danger         /!\\                *\n");
+	printf("*                                                                      *\n");
+	printf("*                            Q. Fermer le programme                    *\n");
 	printf("************************************************************************\n");
 	
 	printf("Choissisez un mode:");

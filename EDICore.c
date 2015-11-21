@@ -139,8 +139,6 @@ void EDIProcessContext(CONTEXT context)
 	}
 }
 
-#pragma mark - Node processing
-
 bool EDIProcessCarInNode(CONTEXT context, uint posInLine, bool isLeft, uint _currentSession)
 {
 	CAR * currentCar = GET_CAR_NODE(context->EDI.node, posInLine, isLeft);
@@ -306,8 +304,6 @@ bool EDIIsNodeSlotAvailable(EDI_NODE currentNode, uint posInLine, bool isLeft)
 	return car == NULL || car->status == STATUS_DANGER;
 }
 
-#pragma mark - External road processing
-
 void EDIProcessCarLeavingOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection, uint posInLine, bool isLeft)
 {
 	EDIProcessCarOnExternalRoad(context, workingSection, false, posInLine, isLeft);
@@ -376,7 +372,7 @@ void EDIProcessCarOnExternalRoad(CONTEXT context, EDI_EXT_ROAD * workingSection,
 #ifdef DEBUG_BUILD
 				if(GET_CAR(workingSection, goingIn, oldPosInLine, isLeft) != NULL)
 				{
-					printf("Failed to move the car!??!! WTFH? Reexecuting the line to tracing\n");
+					printf("Failed to move the car! WTFH? Reexecuting the line to tracing\n");
 					if(!EDITransitionCars(&GET_CAR(workingSection, goingIn, oldPosInLine, isLeft), &GET_CAR_NODE(context->EDI.node, currentCar->context.index, isLeft)))
 						currentCar->context = backupCar.context;
 				}
